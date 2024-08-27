@@ -2,27 +2,22 @@
 "use client"
 
 import { NextPage } from "next"
-import React, { useState } from "react"
+import React from "react"
 import Head from "next/head"
 import Image from "next/image"
 import Cookies from "js-cookie"
 import { formAction } from "@/actions/formAction"
 
 const Page : NextPage = () => {
-  const [data, setData] = useState({ identifier : "", password : "" })
-  const [error, setError] = useState("")
-
   const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
 
     try {
-      const { token, uid } = await formAction(formData)
+      const { token } = await formAction(formData)
       Cookies.set("token", token, { expires : 7 })
-      Cookies.set("uid", uid, { expires : 7 })
       window.location.href = "/"
     } catch (error) {
-      setError(error.message)
       console.error(error.message)
     }
   }
@@ -62,7 +57,6 @@ const Page : NextPage = () => {
                     id="email"
                     autoComplete="email"
                     className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow transition-all duration-150 ease-linear placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                    onChange={(e) => setData({ ...data, identifier : e.target.value })}
                   />
                 </div>
 
@@ -79,7 +73,6 @@ const Page : NextPage = () => {
                     id="password"
                     autoComplete="current-password"
                     className="w-full rounded border-0 bg-white px-3 py-3 text-sm shadow transition-all duration-150 ease-linear placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                    onChange={(e) => setData({ ...data, password : e.target.value })}
                   />
                 </div>
 
@@ -114,11 +107,6 @@ const Page : NextPage = () => {
           </div>
         </div>
       </div>
-      {
-        error ? (
-          <p>{error}</p>
-        ) : null
-      }
     </>
   )
 }
