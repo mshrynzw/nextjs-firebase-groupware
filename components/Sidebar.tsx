@@ -1,20 +1,25 @@
+// TODO
+"use client"
+
 import { useContext, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/router"
-import { AppContext } from "@/context/AppContext"
+import { useRouter, usePathname } from "next/navigation"
+// import { AppContext } from "@/context/AppContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faCalendarDays, faCheck, faCircleInfo, faClock, faHouse, faMessage, faRightFromBracket, faRightToBracket, faTimes, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons"
 
 const Sidebar = () => {
-  const appContext = useContext(AppContext)
-
-  const { user, setUser } = appContext
+  // const appContext = useContext(AppContext)
+  //
+  // const { user, setUser } = appContext
+  const user = "test"
 
   const [collapseShow, setCollapseShow] = useState("hidden")
   const router = useRouter()
+  const pathname = usePathname()
 
   const handleLogout = () => {
-    setUser(null)
+    // setUser(null)
     router.push("/login")
   }
 
@@ -75,7 +80,7 @@ const Sidebar = () => {
                   href="/"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -93,7 +98,7 @@ const Sidebar = () => {
                   href="/info"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/info" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/info" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -111,7 +116,7 @@ const Sidebar = () => {
                   href="/chat"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/chat" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/chat" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -129,7 +134,7 @@ const Sidebar = () => {
                   href="/todo"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/todo" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/todo" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -147,7 +152,7 @@ const Sidebar = () => {
                   href="/schedule"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/schedule" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/schedule" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -165,7 +170,7 @@ const Sidebar = () => {
                   href="/timecard"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -190,7 +195,7 @@ const Sidebar = () => {
                   href="/setting/group"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/setting/group" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/setting/group" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -208,7 +213,7 @@ const Sidebar = () => {
                   href="/setting/timecard"
                   className={
                     "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                    (router.pathname === "/setting/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
+                    (pathname === "/setting/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
@@ -241,7 +246,8 @@ const Sidebar = () => {
                         "fas fa-tv mr-2 text-sm opacity-75"
                       }
                     />{" "}
-                    {user.username}
+                    {/*TODO*/}
+                    {/*{user.username}*/}
                   </div>
                 </li>
               ) : (
@@ -250,7 +256,7 @@ const Sidebar = () => {
                     href="/signup"
                     className={
                       "text-xs uppercase p-3 font-bold block " +
-                      (router.pathname === "/signup"
+                      (pathname === "/signup"
                         ? "text-lightBlue-500 hover:text-lightBlue-600"
                         : "text-blueGray-700 hover:text-blueGray-500")
                     }
@@ -286,7 +292,7 @@ const Sidebar = () => {
                     href="/login"
                     className={
                       "text-xs uppercase p-3 font-bold block " +
-                      (router.pathname === "/login"
+                      (pathname === "/login"
                         ? "text-lightBlue-500 hover:text-lightBlue-600"
                         : "text-blueGray-700 hover:text-blueGray-500")
                     }
