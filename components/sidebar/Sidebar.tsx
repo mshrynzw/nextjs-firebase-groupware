@@ -1,12 +1,13 @@
 import Link from "next/link"
-import { cookies } from "next/headers"
+import { headers, cookies } from "next/headers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendarDays, faCheck, faCircleInfo, faClock, faHouse, faMessage, faRightFromBracket, faRightToBracket, faTimes, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons"
 import SidebarToggle from "@/components/sidebar/SidebarToggle"
 import SidebarLogout from "@/components/sidebar/SidebarLogout"
 
-const Sidebar = ({ pathname } : { pathname : string }) => {
+const Sidebar = () => {
   const token = cookies().get("token")?.value
+  const pathname = headers().get("x-pathname") || ""
 
   return (
     <>
@@ -25,14 +26,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faHouse}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Dashboard
@@ -43,14 +44,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/info"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/info" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faCircleInfo}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Info
@@ -61,14 +62,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/chat"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/chat" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faMessage}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Chat
@@ -79,14 +80,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/todo"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/todo" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faCheck}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Todo
@@ -97,14 +98,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/schedule"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/schedule" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faCalendarDays}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Schedule
@@ -115,14 +116,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/timecard"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faClock}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Time Card
@@ -140,14 +141,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/setting/group"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/setting/group" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faUsers}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Group
@@ -158,14 +159,14 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <Link
                   href="/setting/timecard"
                   className={
-                    "hover:text-blueGray-500 text-xs uppercase p-3 font-bold block text-blueGray-300" +
+                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
                     (pathname === "/setting/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
                   }
                 >
                   <FontAwesomeIcon
                     icon={faClock}
                     className={
-                      "fas fa-tv mr-2 text-sm opacity-75"
+                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                     }
                   />{" "}
                   Time Card
@@ -183,13 +184,13 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                 <li className="items-center">
                   <div
                     className={
-                      "text-xs uppercase p-3 font-bold block text-blueGray-700 hover:text-blueGray-500"
+                      "flex items-center text-xs uppercase p-3 font-bold text-blueGray-700 hover:text-blueGray-500"
                     }
                   >
                     <FontAwesomeIcon
                       icon={faUser}
                       className={
-                        "fas fa-tv mr-2 text-sm opacity-75"
+                        "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                       }
                     />{" "}
                     {/*TODO*/}
@@ -210,7 +211,7 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                     <FontAwesomeIcon
                       icon={faUserPlus}
                       className={
-                        "fas fa-tv mr-2 text-sm opacity-75"
+                        "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                       }
                     />{" "}
                     Sign Up
@@ -235,7 +236,7 @@ const Sidebar = ({ pathname } : { pathname : string }) => {
                     <FontAwesomeIcon
                       icon={faRightToBracket}
                       className={
-                        "fas fa-tv mr-2 text-sm opacity-75"
+                        "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                       }
                     />{" "}
                     Login

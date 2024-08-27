@@ -5,7 +5,7 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 import Cookies from "js-cookie"
 import { auth } from "@/lib/firebase"
 
-const SidebarLogout =()=>{
+const SidebarLogout = () => {
   const handleLogout = async () => {
     Cookies.remove("token")
     await auth.signOut()
@@ -15,15 +15,15 @@ const SidebarLogout =()=>{
   return (
     <button
       className={
-        "text-xs uppercase p-3 font-bold block text-blueGray-700 hover:text-blueGray-500"}
+        "flex items-center text-xs uppercase p-3 font-bold text-blueGray-700 hover:text-blueGray-500"}
       onClick={handleLogout}>
-      <FontAwesomeIcon
-        icon={faRightFromBracket}
-        className={
-          "fas fa-tv mr-2 text-sm opacity-75"
-        }
-      />{" "}
-      Logout
+        <FontAwesomeIcon
+          icon={faRightFromBracket}
+          className={
+            "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
+          }
+        />{" "}
+        Logout
     </button>
   )
 }

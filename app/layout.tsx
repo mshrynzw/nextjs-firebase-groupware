@@ -11,7 +11,7 @@ export const metadata : Metadata = {
   description : "Groupware"
 }
 
-const RootLayout = ({ children, request } : Readonly<{ children : React.ReactNode; request : NextRequest }>) => {
+const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => {
   const token = cookies().get("token")?.value
 
   return (
