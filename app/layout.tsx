@@ -1,10 +1,9 @@
 import React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
+import { redirect } from "next/navigation"
+import { cookies, headers } from "next/headers"
 import Sidebar from "@/components/sidebar/Sidebar"
-import Cookies from "js-cookie"
-import { NextRequest } from "next/server"
-import { cookies } from "next/headers"
 
 export const metadata : Metadata = {
   title : "GROUPWARE",
@@ -14,9 +13,13 @@ export const metadata : Metadata = {
 const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => {
   const token = cookies().get("token")?.value
 
+  const pathname = headers().get("x-pathname") || ""
+  if (!token && pathname !== "/login") {
+    redirect("/login")
+  }
+
   return (
     <html lang="en">
-    {/*TODO*/}
     <body>
     {token ? (
       <>
