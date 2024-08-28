@@ -2,7 +2,7 @@
 
 import React from "react"
 import Cookies from "js-cookie"
-import { formAction } from "@/actions/formAction"
+import { AuthLogin } from "@/actions/authLogin"
 
 const LoginForm =()=>{
   const handleSubmit = async (e : React.FormEvent) => {
@@ -10,7 +10,7 @@ const LoginForm =()=>{
     const formData = new FormData(e.currentTarget)
 
     try {
-      const { token, uid } = await formAction(formData)
+      const { token, uid } = await AuthLogin(formData)
       Cookies.set("token", token, { expires : 7 })
       Cookies.set("uid", uid, { expires : 7 })
       window.location.href = "/"

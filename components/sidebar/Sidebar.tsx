@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCalendarDays, faCheck, faCircleInfo, faClock, faHouse, faMessage, faRightFromBracket, faRightToBracket, faTimes, faUser, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons"
 import SidebarToggle from "@/components/sidebar/SidebarToggle"
 import SidebarLogout from "@/components/sidebar/SidebarLogout"
+import SidebarItem from "@/components/sidebar/SidebarItem"
 
 const Sidebar = () => {
   const token = cookies().get("token")?.value
@@ -21,159 +22,21 @@ const Sidebar = () => {
               <h6 className="block pt-1 pb-4 text-xs font-bold uppercase no-underline text-blueGray-500 md:min-w-full">
                 Menu
               </h6>
+              <SidebarItem href="/" icon={faHouse} pathname={pathname}/>
+              <SidebarItem href="/info" icon={faCircleInfo} pathname={pathname}/>
+              <SidebarItem href="/chat" icon={faMessage} pathname={pathname}/>
+              <SidebarItem href="/todo" icon={faCheck} pathname={pathname}/>
+              <SidebarItem href="/schedule" icon={faCalendarDays} pathname={pathname}/>
+              <SidebarItem href="/timecard" icon={faClock} pathname={pathname}/>
 
-              <li className="items-center">
-                <Link
-                  href="/"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faHouse}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Dashboard
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/info"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/info" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faCircleInfo}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Info
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/chat"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/chat" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faMessage}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Chat
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/todo"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/todo" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Todo
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/schedule"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/schedule" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faCalendarDays}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Schedule
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/timecard"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Time Card
-                </Link>
-              </li>
-
-              {/* Divider */}
               <hr className="my-4 md:min-w-full"/>
 
               <h6 className="block pt-1 pb-4 text-xs font-bold uppercase no-underline text-blueGray-500 md:min-w-full">
                 Setting
               </h6>
+              <SidebarItem href="/setting/group" icon={faUsers} pathname={pathname}/>
+              <SidebarItem href="/setting/timecard" icon={faClock} pathname={pathname}/>
 
-              <li className="items-center">
-                <Link
-                  href="/setting/group"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/setting/group" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faUsers}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Group
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link
-                  href="/setting/timecard"
-                  className={
-                    "flex items-center hover:text-blueGray-500 text-xs uppercase p-3 font-bold text-blueGray-300" +
-                    (pathname === "/setting/timecard" && " bg-blueGray-600 rounded-lg shadow-xl")
-                  }
-                >
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={
-                      "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
-                    }
-                  />{" "}
-                  Time Card
-                </Link>
-              </li>
-
-              {/* Divider */}
               <hr className="my-4 md:min-w-full"/>
 
               <h6 className="block pt-1 pb-4 text-xs font-bold uppercase no-underline text-blueGray-500 md:min-w-full">
