@@ -8,6 +8,7 @@ import { auth } from "@/lib/firebase"
 const SidebarLogout = () => {
   const handleLogout = async () => {
     Cookies.remove("token")
+    Cookies.remove("uid")
     await auth.signOut()
     window.location.href = "/login"
   }

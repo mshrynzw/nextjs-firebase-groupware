@@ -10,8 +10,9 @@ const LoginForm =()=>{
     const formData = new FormData(e.currentTarget)
 
     try {
-      const { token } = await formAction(formData)
+      const { token, uid } = await formAction(formData)
       Cookies.set("token", token, { expires : 7 })
+      Cookies.set("uid", uid, { expires : 7 })
       window.location.href = "/"
     } catch (error) {
       console.error(error.message)
