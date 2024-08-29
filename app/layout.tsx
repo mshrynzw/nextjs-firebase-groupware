@@ -32,7 +32,7 @@ const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => 
         </div>
       </>
     ) : (
-      <div className="flex h-screen w-screen items-center justify-center">
+      <div className="flex h-screen w-screen items-center justify-center z-10">
         {children}
       </div>
     )}

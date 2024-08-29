@@ -4,7 +4,7 @@ import React from "react"
 import Cookies from "js-cookie"
 import { LoginAction } from "@/actions/loginAction"
 
-const LoginForm =()=>{
+const LoginForm = () => {
   const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -19,7 +19,7 @@ const LoginForm =()=>{
     }
   }
 
-  return(
+  return (
     <form onSubmit={handleSubmit}>
       <div className="relative mb-3 w-full">
         <label
@@ -60,17 +60,15 @@ const LoginForm =()=>{
             id="customCheckLogin" type="checkbox"
             className="ml-1 h-5 w-5 rounded border-0 transition-all duration-150 ease-linear form-checkbox text-blueGray-700"
           />
-          <span
-            className="ml-2 text-sm font-semibold text-blueGray-600"
-          >
-                        Remember me
-                      </span>
+          <span className="ml-2 text-sm font-semibold text-blueGray-600">
+            Remember me
+          </span>
         </label>
       </div>
 
       <button
         type="submit"
-        className="mr-1 mb-1 w-full rounded px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear bg-blueGray-800 hover:shadow-lg focus:outline-none active:bg-blueGray-600"
+        className="mr-1 mb-1 w-full rounded-lg bg-gray-200 p-2 px-6 py-3 text-sm font-bold uppercase text-blueGray-600 shadow-xl outline-none transition-all duration-300 ease-in-out bg-blueGray-800 text-blueGray-600 hover:text-blueGray-200 hover:bg-blueGray-600 hover:-translate-y-1 hover:scale-110 hover:shadow-lg focus:outline-none active:bg-blueGray-600"
       >
         Login
       </button>

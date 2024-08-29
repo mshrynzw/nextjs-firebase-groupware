@@ -12,9 +12,9 @@ const Page : NextPage = () => {
         <title>Login</title>
       </Head>
 
-      <div className="flex content-center items-center justify-center">
+      <div className="flex content-center items-center justify-center z-10">
         <div className="w-full px-4">
-          <div className="relative mb-6 flex w-full min-w-0 flex-col rounded-lg border-0 shadow-lg bg-blueGray-200">
+          <div className="relative mb-6 flex w-full min-w-0 flex-col rounded-lg border-0 shadow-xl bg-blueGray-200">
             <div className="mb-0 flex flex-nowrap items-center justify-center rounded-t px-4 py-10 pb-4 space-x-4 lg:px-10">
               <Image
                 src="/favicon.webp" alt="Icon" width={64} height={64}
