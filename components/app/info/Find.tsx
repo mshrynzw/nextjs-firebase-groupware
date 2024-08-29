@@ -85,16 +85,16 @@ const Find = ({ setEditInfo, setDeleteInfo }) => {
                                 {info.displayName}
                               </span>
                             </p>
-                            <div className="flex justify-end">
+                            <div className="flex justify-end space-x-2">
                               <button
                                 onClick={() => handleEdit(info)}
-                                className="mr-2 flex h-8 w-8 items-center justify-center rounded-md p-2 text-white shadow-sm bg-blueGray-700 hover:bg-blueGray-400 hover:shadow-xl"
+                                className="h-8 w-8 rounded-md bg-gray-200 p-2 text-sm font-semibold shadow-xl duration-300 ease-in-out text-blueGray-600 hover:text-blueGray-200 hover:bg-blueGray-600 hover:-translate-y-1 hover:scale-110"
                               >
                                 <FontAwesomeIcon icon={faEllipsis}/>
                               </button>
                               <button
                                 onClick={() => handleDelete(info)}
-                                className="flex h-8 w-8 items-center justify-center rounded-md p-2 text-white shadow-sm bg-blueGray-700 hover:bg-blueGray-400 hover:shadow-xl"
+                                className="h-8 w-8 rounded-md bg-gray-200 p-2 text-sm font-semibold shadow-xl duration-300 ease-in-out text-blueGray-600 hover:text-blueGray-200 hover:bg-blueGray-600 hover:-translate-y-1 hover:scale-110"
                               >
                                 <FontAwesomeIcon icon={faTrash}/>
                               </button>
