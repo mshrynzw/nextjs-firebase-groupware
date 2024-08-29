@@ -1,4 +1,4 @@
-import Background from "@/components/Background/Background"
+import Background from "@/components/background/Background"
 import React from "react"
 import type { Metadata } from "next"
 import "./globals.css"

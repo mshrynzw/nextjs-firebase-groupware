@@ -102,6 +102,10 @@ const Background : NextPage = () => {
       renderer.setSize(sizes.width, sizes.height)
       renderer.setPixelRatio(window.devicePixelRatio)
     })
+
+    return () => {
+      renderer.dispose()
+    }
   }, [])
 
   return (
