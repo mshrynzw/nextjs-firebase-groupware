@@ -17,7 +17,6 @@ const SidebarItem : React.FC<SidebarItemProps> = ({ href, icon, pathname }) => {
 
   const handleClick = () => {
     Cookies.set("app", app, { expires : 7 })
-    Cookies.set("screen", "find", { expires : 7 })
   }
 
   return (

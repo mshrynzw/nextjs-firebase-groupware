@@ -1,11 +1,8 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEllipsis, faSnowflake } from "@fortawesome/free-solid-svg-icons"
-import { AppContext } from "@/context/AppContext"
 import { editedInfo } from "@/lib/api/info"
-import { getLocalTime } from "@/lib/datetime"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import TextPreview from "@/components/text/TextPreview"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -15,13 +12,24 @@ import Form from "@/components/form/Form"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import InputDescription from "@/components/input/InputDescription"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
+import { AppContext } from "@/context/AppContext"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "@/lib/firebase"
 
-const Edit = ({ editInfo, handlePreview, isPreview, type, refetch }) => {
+const Edit = ({ editInfo, handlePreview, isPreview, type }) => {
   const { setScreen } = useContext(AppContext)
 
-  const [title, setTitle] = useState<string>(editInfo.attributes.title)
-  const [description, setDescription] = useState<string>(editInfo.attributes.description)
+  const [title, setTitle] = useState<string>(editInfo.title)
+  const [description, setDescription] = useState<string>(editInfo.description)
   const [htmlContent, setHtmlContent] = useState<string>("")
+
+  useEffect(() => {
+    const fetchInfos = async () => {
+      const userDoc = await getDoc(doc(db, "users", editInfo.uid))
+      editInfo.displayName = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
+    }
+    fetchInfos()
+  }, [])
 
   const handleMarkdownChange = async (e) => {
     setDescription(e.target.value)
@@ -30,11 +38,9 @@ const Edit = ({ editInfo, handlePreview, isPreview, type, refetch }) => {
   }
   const handleEdit = async () => {
     await editedInfo(editInfo.id, title, description)
-    refetch()
     setScreen("find")
+    window.location.reload()
   }
-
-  const updated = getLocalTime(editInfo.attributes.updatedAt)
 
   return (
     <>
@@ -51,7 +57,7 @@ const Edit = ({ editInfo, handlePreview, isPreview, type, refetch }) => {
               <InputDescription value={description} onChange={(e) => setDescription(e.target.value)}/>
             )}
             <Label name="updated"/>
-            <TextUpdated updated={updated} username={editInfo.attributes.user.data.attributes.username}/>
+            <TextUpdated updated={formatDateTimeFromFirebase(editInfo.updatedAt)} username={editInfo.displayName}/>
           </div>
           <ButtonSubmit/>
         </Form>

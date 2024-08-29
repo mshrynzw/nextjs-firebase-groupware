@@ -1,20 +1,43 @@
-import React, { useContext, useEffect } from "react"
-import { useQuery } from "@apollo/client"
+import React, { useContext, useEffect, useState } from "react"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { getLocalTime } from "@/lib/datetime"
-import { AppContext } from "@/context/AppContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import LabelHeader from "@/components/label/LabelHeader"
-import { GET_INFOS } from "@/lib/api/info"
+import { db } from "@/lib/firebase"
+import info from "@/types/info"
+import { collection, getDocs, doc, getDoc } from "firebase/firestore"
+import { AppContext } from "@/context/AppContext"
 
-const Find = ({ setEditInfo, setDeleteInfo, refetchFlag }) => {
-  const {setScreen} =useContext(AppContext)
+const Find = ({ setEditInfo, setDeleteInfo }) => {
+  const { setScreen } = useContext(AppContext)
 
-  const { loading, error, data, refetch } = useQuery(GET_INFOS)
+  const [infos, setInfos] = useState<info[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    refetch()
-  }, [refetchFlag])
+    const fetchInfos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "infos"))
+
+        const infosData = await Promise.all(querySnapshot.docs.map(async (d) => {
+          const infoData = { id : d.id, ...d.data() }
+          const userDoc = await getDoc(doc(db, "users", infoData.uid))
+          infoData.displayName = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
+          return infoData
+        }))
+
+        setInfos(infosData)
+      } catch (error) {
+        console.error(error.message)
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchInfos()
+  }, [])
 
   const handleEdit = (info) => {
     setEditInfo(info)
@@ -26,10 +49,11 @@ const Find = ({ setEditInfo, setDeleteInfo, refetchFlag }) => {
     setScreen("delete")
   }
 
+  // TODO
   if (loading) return <p>Loading...</p>
   if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
+    console.error("Error: ", error)
+    return <p>Error: {error}</p>
   }
 
   return (
@@ -38,9 +62,8 @@ const Find = ({ setEditInfo, setDeleteInfo, refetchFlag }) => {
         <LabelHeader screen="find"/>
 
         <div className="flex flex-wrap">
-          {data.infos.data.map((info) => {
+          {infos.map((info) => {
             try {
-              const updatedTime = getLocalTime(info.attributes.updatedAt)
               return (
                 <div key={info.id} className="w-full px-4 py-4 xl:w-6/12">
                   <div className="relative mb-6 flex min-w-0 flex-col break-words rounded bg-white shadow-lg xl:mb-0">
@@ -48,18 +71,18 @@ const Find = ({ setEditInfo, setDeleteInfo, refetchFlag }) => {
                       <div className="flex flex-wrap">
                         <div className="relative w-full max-w-full flex-1 flex-grow pr-4 space-y-2">
                           <h3 className="text-xl font-semibold text-blueGray-700">
-                            {info.attributes.title}
+                            {info.title}
                           </h3>
                           <p className="whitespace-pre-wrap break-words text-xs font-bold text-blueGray-400">
-                            {info.attributes.description}
+                            {info.description}
                           </p>
                           <div className="mt-2 flex items-end justify-between">
                             <p className="text-sm text-blueGray-400">
                               <span className="whitespace-nowrap">
-                                {updatedTime}
+                                {formatDateTimeFromFirebase(info.updatedAt)}
                               </span>
                               <span className="ml-2 text-lightBlue-500">
-                                {info.attributes.user.data.attributes.username}
+                                {info.displayName}
                               </span>
                             </p>
                             <div className="flex justify-end">

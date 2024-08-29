@@ -11,9 +11,11 @@ import InputDescription from "@/components/input/InputDescription"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import Form from "@/components/form/Form"
+import Cookies from "js-cookie"
 
-const Create = ({ handlePreview, isPreview, type, refetch }) => {
-  const { setScreen, user } = useContext(AppContext)
+const Create = ({ handlePreview, isPreview, type }) => {
+  const { setScreen } = useContext(AppContext)
+  const uid = Cookies.get("uid")
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -27,9 +29,9 @@ const Create = ({ handlePreview, isPreview, type, refetch }) => {
 
   const handleCreat = async () => {
     try {
-      if (user) await createdInfo(user, title, type, description)
-      refetch()
+      if (uid) await createdInfo(uid, title, type, description)
       setScreen("find")
+      window.location.reload()
     } catch (error) {
       console.error(error)
     }

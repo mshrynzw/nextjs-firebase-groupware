@@ -10,7 +10,6 @@ const SidebarLogout = () => {
     Cookies.remove("token")
     Cookies.remove("uid")
     Cookies.remove("app")
-    Cookies.remove("screen")
 
     await auth.signOut()
     window.location.href = "/login"
