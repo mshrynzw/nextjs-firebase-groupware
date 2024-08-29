@@ -112,14 +112,16 @@ const LineChart = () => {
 
   return (
     <>
-      <div className="relative mb-6 flex w-full min-w-0 flex-col break-words rounded shadow-lg bg-blueGray-700">
+      <div className="relative mb-6 flex w-full min-w-0 flex-col break-words rounded shadow-lg opacity-95 bg-blueGray-400">
         <div className="mb-0 rounded-t bg-transparent px-4 py-3">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-1 flex-grow">
-              <h6 className="mb-1 text-xs font-semibold uppercase text-blueGray-100">
+              <h6 className="mb-1 text-xs font-semibold uppercase text-blueGray-900">
                 Overview
               </h6>
-              <h2 className="text-xl font-semibold text-white">Sales value</h2>
+              <h2 className="text-xl font-semibold text-blueGray-100">
+                Schedule
+              </h2>
             </div>
           </div>
         </div>
