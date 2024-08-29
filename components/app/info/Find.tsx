@@ -1,3 +1,4 @@
+import Loading from "@/app/loading"
 import React, { useContext, useEffect, useState } from "react"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -50,7 +51,7 @@ const Find = ({ setEditInfo, setDeleteInfo }) => {
   }
 
   // TODO
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Loading/>
   if (error) {
     console.error("Error: ", error)
     return <p>Error: {error}</p>

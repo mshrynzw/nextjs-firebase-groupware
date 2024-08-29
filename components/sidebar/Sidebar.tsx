@@ -1,3 +1,5 @@
+import { db } from "@/lib/firebase"
+import { doc, getDoc } from "firebase/firestore"
 import Link from "next/link"
 import { headers, cookies } from "next/headers"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -6,13 +8,17 @@ import SidebarToggle from "@/components/sidebar/SidebarToggle"
 import SidebarLogout from "@/components/sidebar/SidebarLogout"
 import SidebarItem from "@/components/sidebar/SidebarItem"
 
-const Sidebar = () => {
+const Sidebar = async () => {
   const token = cookies().get("token")?.value
   const pathname = headers().get("x-pathname") || ""
 
+  const uid = cookies().get("uid")?.value
+  const userDoc = await getDoc(doc(db, "users", uid))
+  const username = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
+
   return (
     <>
-      <nav className="relative z-50 flex flex-wrap items-center justify-between bg-white px-6 py-4 shadow-xl md:fixed md:top-0 md:bottom-0 md:left-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
+      <nav className="relative z-50 flex flex-wrap items-center justify-between bg-white px-6 py-4 shadow-2xl md:fixed md:top-0 md:bottom-0 md:left-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
         <div className="mx-auto flex w-full flex-wrap items-center justify-between px-0 md:min-h-full md:flex-col md:flex-nowrap md:items-stretch">
           <SidebarToggle>
 
@@ -47,7 +53,7 @@ const Sidebar = () => {
                 <li className="items-center">
                   <div
                     className={
-                      "flex items-center text-xs uppercase p-3 font-bold text-blueGray-700 hover:text-blueGray-500"
+                      "flex items-center text-xs uppercase p-3 font-bold text-blueGray-700"
                     }
                   >
                     <FontAwesomeIcon
@@ -56,8 +62,7 @@ const Sidebar = () => {
                         "fas fa-tv mr-2 text-sm opacity-75 w-4 h-4"
                       }
                     />{" "}
-                    {/*TODO*/}
-                    {/*{user.username}*/}
+                    {username}
                   </div>
                 </li>
               ) : (
