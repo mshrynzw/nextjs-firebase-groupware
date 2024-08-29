@@ -1,13 +1,8 @@
 import React from "react"
 
-const Form = ({ onSubmit, children }) => {
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    await onSubmit()
-  }
-
+const Form = ({ action, children }) => {
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form className="flex flex-col" action={action}>
       {children}
     </form>
   )

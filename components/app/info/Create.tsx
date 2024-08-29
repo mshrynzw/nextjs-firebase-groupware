@@ -1,8 +1,8 @@
+import { createAction } from "@/actions/infoAction"
 import React, { useContext, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
 import { AppContext } from "@/context/AppContext"
-import { createdInfo } from "@/lib/api/info"
 import TextPreview from "@/components/text/TextPreview"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -27,9 +27,12 @@ const Create = ({ handlePreview, isPreview, type }) => {
     setHtmlContent(processedContent.toString())
   }
 
-  const handleCreat = async () => {
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title", title)
+    formData.append("description", description)
     try {
-      if (uid) await createdInfo(uid, title, type, description)
+      await createAction(formData, uid, type)
       setScreen("find")
       window.location.reload()
     } catch (error) {
@@ -41,7 +44,7 @@ const Create = ({ handlePreview, isPreview, type }) => {
     <>
       <ContainerCentered>
         <LabelHeader screen="create"/>
-        <Form onSubmit={handleCreat}>
+        <Form action={formAction}>
           <Label name="title"/>
           <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
           <div className="relative">

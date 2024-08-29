@@ -6,7 +6,6 @@ import LoginForm from "@/components/app/login/LoginForm"
 
 const Page : NextPage = () => {
 
-
   return (
     <>
       <Head>

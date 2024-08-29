@@ -3,7 +3,7 @@
 import { auth } from "@/lib/firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
 
-export const AuthLogin = async (formData : FormData) => {
+export const LoginAction = async (formData : FormData) => {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
 

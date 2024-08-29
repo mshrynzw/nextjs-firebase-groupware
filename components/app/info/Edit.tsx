@@ -1,3 +1,4 @@
+import { editAction } from "@/actions/infoAction"
 import React, { useContext, useEffect, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
@@ -36,17 +37,25 @@ const Edit = ({ editInfo, handlePreview, isPreview, type }) => {
     const processedContent = await remark().use(html).process(description)
     setHtmlContent(processedContent.toString())
   }
-  const handleEdit = async () => {
-    await editedInfo(editInfo.id, title, description)
-    setScreen("find")
-    window.location.reload()
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title", title)
+    formData.append("description", description)
+
+    try {
+      await editAction(formData, editInfo.id)
+      setScreen("find")
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <>
       <ContainerCentered>
         <LabelHeader screen="edit"/>
-        <Form onSubmit={handleEdit}>
+        <Form action={formAction}>
           <Label name="title"/>
           <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
           <div className="relative">
