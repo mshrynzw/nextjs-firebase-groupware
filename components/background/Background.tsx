@@ -110,7 +110,8 @@ const Background : NextPage = () => {
 
   return (
     <>
-      <canvas id="canvas" className="bg-blueGray-50"></canvas>
+      <div className="halftone-overlay " />
+      <canvas id="canvas" className="bg-blueGray-50 "></canvas>
     </>
   )
 }

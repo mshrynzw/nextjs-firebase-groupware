@@ -25,7 +25,7 @@ const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => 
     {token ? (
       <>
         <Sidebar/>
-        <div className="relative md:ml-64">
+        <div className="relative md:ml-64 z-10">
           <main className="min-h-screen w-full p-4 md:p-12">
             {children}
           </main>
