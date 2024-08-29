@@ -1,13 +1,15 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import React, { useContext, useEffect, useState } from "react"
-import Find from "@/components/app/info/Find"
-import Container from "@/components/container/Container"
-import Edit from "@/components/app/info/Edit"
-import Delete from "@/components/app/info/Delete"
-import Create from "@/components/app/info/Create"
-import ButtonMenu from "@/components/button/ButtonMenu"
 import { AppContext } from "@/context/AppContext"
+
+const DynamicFind = dynamic(() => import("./Find"))
+const DynamicContainer = dynamic(() => import("@/components/container/Container"))
+const DynamicEdit = dynamic(() => import("./Edit"))
+const DynamicDelete = dynamic(() => import("./Delete"))
+const DynamicCreate = dynamic(() => import("./Create"))
+const DynamicButtonMenu = dynamic(() => import("@/components/button/ButtonMenu"))
 
 const Index : React.FC = () => {
   const { screen } = useContext(AppContext)
@@ -31,19 +33,19 @@ const Index : React.FC = () => {
 
   return (
     <>
-      <Find setEditInfo={setEditInfo} setDeleteInfo={setDeleteInfo}/>
+      <DynamicFind setEditInfo={setEditInfo} setDeleteInfo={setDeleteInfo}/>
       {screen !== "find" && (
-        <Container>
+        <DynamicContainer>
           {screen === "edit" && editInfo !== null ? (
-            <Edit editInfo={editInfo} handlePreview={handlePreview} isPreview={isPreview} type={type}/>
+            <DynamicEdit editInfo={editInfo} handlePreview={handlePreview} isPreview={isPreview} type={type}/>
           ) : screen === "delete" && deleteInfo !== null ? (
-            <Delete deleteInfo={deleteInfo}/>
+            <DynamicDelete deleteInfo={deleteInfo}/>
           ) : screen === "create" ? (
-            <Create type={type} isPreview={isPreview} handlePreview={handlePreview}/>
+            <DynamicCreate type={type} isPreview={isPreview} handlePreview={handlePreview}/>
           ) : null}
-        </Container>
+        </DynamicContainer>
       )}
-      <ButtonMenu handlePreview={handlePreview} handleType={handleType} isPreview={isPreview} type={type}/>
+      <DynamicButtonMenu handlePreview={handlePreview} handleType={handleType} isPreview={isPreview} type={type}/>
     </>
   )
 }
