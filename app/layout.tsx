@@ -1,3 +1,4 @@
+import Background from "@/components/Background/Background"
 import React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
@@ -24,7 +25,7 @@ const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => 
     {token ? (
       <>
         <Sidebar/>
-        <div className="relative bg-blueGray-50 md:ml-64">
+        <div className="relative md:ml-64">
           <main className="min-h-screen w-full p-4 md:p-12">
             {children}
           </main>
@@ -35,6 +36,7 @@ const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => 
         {children}
       </div>
     )}
+    <Background/>
     </body>
     </html>
   )

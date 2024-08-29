@@ -64,6 +64,15 @@ body {
     /* 1 */
     line-height: inherit;
     /* 2 */
+
+}
+
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+    z-index: -1;
 }
 
 /*
@@ -2812,6 +2821,11 @@ select {
 .bg-blueGray-200 {
     --tw-bg-opacity: 1;
     background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+.bg-blueGray-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 
 .bg-blueGray-400 {
