@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { deletedSchedule } from "@/lib/api/schedule"
+import { deletedSchedule } from "@/lib/app/schedule"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 import ButtonSubmit from "@/components/button/ButtonSubmit"

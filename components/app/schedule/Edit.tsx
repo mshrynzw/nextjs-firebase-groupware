@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { editedSchedule } from "@/lib/api/schedule"
+import { editedSchedule } from "@/lib/app/schedule"
 import { formatDateTimeByEventCalender } from "@/lib/datetime"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"

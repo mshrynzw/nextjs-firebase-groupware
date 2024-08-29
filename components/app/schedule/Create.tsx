@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "@/context/AppContext"
 import { formatDateTimeByStrapi, getNow, getOneHourAgo } from "@/lib/datetime"
-import { createdSchedule } from "@/lib/api/schedule"
+import { createdSchedule } from "@/lib/app/schedule"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
 import InputDate from "@/components/input/InputDate"

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import React, { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
-import { createdChat } from "@/lib/api/chat"
+import { createdChat } from "@/lib/app/chat"
 
 const Create = ({user, ws}) => {
   const [text, setText] = useState("")

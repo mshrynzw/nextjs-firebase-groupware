@@ -1,3 +1,4 @@
+import { InfoProvider } from "@/context/InfoContext"
 import { NextPage } from "next"
 import Head from "next/head"
 import Index from "@/components/app/info"
@@ -10,7 +11,9 @@ const Info : NextPage = () => {
         <title>Info</title>
       </Head>
       <AppProvider>
-        <Index/>
+        <InfoProvider>
+          <Index/>
+        </InfoProvider>
       </AppProvider>
     </>
   )

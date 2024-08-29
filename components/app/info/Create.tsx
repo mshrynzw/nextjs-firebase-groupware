@@ -1,4 +1,5 @@
 import { createAction } from "@/actions/infoAction"
+import { InfoContext } from "@/context/InfoContext"
 import React, { useContext, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
@@ -15,6 +16,8 @@ import Cookies from "js-cookie"
 
 const Create = ({ handlePreview, isPreview, type }) => {
   const { setScreen } = useContext(AppContext)
+  const { setInfos } = useContext(InfoContext)
+
   const uid = Cookies.get("uid")
 
   const [title, setTitle] = useState("")
@@ -32,9 +35,9 @@ const Create = ({ handlePreview, isPreview, type }) => {
     formData.append("title", title)
     formData.append("description", description)
     try {
-      await createAction(formData, uid, type)
+      const newInfo = await createAction(formData, uid, type)
+      setInfos((prevInfos) => [...prevInfos, newInfo])
       setScreen("find")
-      window.location.reload()
     } catch (error) {
       console.error(error)
     }

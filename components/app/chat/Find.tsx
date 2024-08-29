@@ -4,7 +4,7 @@ import { useContext } from "react"
 
 import { AppContext } from "@/context/AppContext"
 import { useQuery } from "@apollo/client"
-import { createdChat, GET_CHATS, wwsUrl } from "@/lib/api/chat"
+import { createdChat, GET_CHATS, wwsUrl } from "@/lib/app/chat"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import Sidebar from "@/components/app/chat/Sidebar"

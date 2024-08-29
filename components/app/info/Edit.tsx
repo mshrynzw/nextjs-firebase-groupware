@@ -1,8 +1,9 @@
 import { editAction } from "@/actions/infoAction"
+import { InfoContext } from "@/context/InfoContext"
 import React, { useContext, useEffect, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
-import { editedInfo } from "@/lib/api/info"
+import { editedInfo } from "@/lib/app/info"
 import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import TextPreview from "@/components/text/TextPreview"
 import LabelHeader from "@/components/label/LabelHeader"
@@ -19,6 +20,7 @@ import { db } from "@/lib/firebase"
 
 const Edit = ({ editInfo, handlePreview, isPreview, type }) => {
   const { setScreen } = useContext(AppContext)
+  const { setInfos } = useContext(InfoContext)
 
   const [title, setTitle] = useState<string>(editInfo.title)
   const [description, setDescription] = useState<string>(editInfo.description)
@@ -43,9 +45,15 @@ const Edit = ({ editInfo, handlePreview, isPreview, type }) => {
     formData.append("description", description)
 
     try {
-      await editAction(formData, editInfo.id)
+      const updateInfo = await editAction(formData, editInfo.id)
       setScreen("find")
-      window.location.reload()
+      setInfos((prevInfos) =>
+        prevInfos.map(info =>
+          info.id === updateInfo.id
+            ? { ...info, ...updateInfo, createdAt : info.createdAt, displayName : info.displayName, type : info.type }
+            : info
+        )
+      )
     } catch (error) {
       console.error(error)
     }

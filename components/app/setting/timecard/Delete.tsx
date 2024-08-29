@@ -1,4 +1,4 @@
-import { deletedTimecardSetting } from "@/lib/api/setting/timecard"
+import { deletedTimecardSetting } from "@/lib/app/setting/timecard"
 import { getLocalTime } from "@/lib/datetime"
 import LabelHeader from "@/components/label/LabelHeader"
 import React, { useContext } from "react"

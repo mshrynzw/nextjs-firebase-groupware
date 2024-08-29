@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { formatTimeWithoutYear, getLocalTime } from "@/lib/datetime"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { GET_TODOS } from "@/lib/api/todo"
+import { GET_TODOS } from "@/lib/app/todo"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 

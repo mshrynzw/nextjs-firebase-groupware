@@ -6,7 +6,7 @@ import styles from "./Find.module.css"
 import { faPenToSquare, faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { startOfMonth, endOfMonth, format } from 'date-fns';
-import { GET_TIMECARDS } from "@/lib/api/timecard"
+import { GET_TIMECARDS } from "@/lib/app/timecard"
 
 interface FindProps {
   setScreen : (screen : string) => void;

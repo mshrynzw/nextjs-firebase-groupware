@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { createTimecard } from "@/lib/api/timecard"
+import { createTimecard } from "@/lib/app/timecard"
 import { TimecardSetting } from "@/types/timecardSetting"
 import { useQuery } from "@apollo/client"
 import { gql } from "apollo-boost"

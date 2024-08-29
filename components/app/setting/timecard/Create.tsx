@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
 import { AppContext } from "@/context/AppContext"
 import { useQuery } from "@apollo/client"
-import { createTimecardSetting, GET_ORDER } from "@/lib/api/setting/timecard"
+import { createTimecardSetting, GET_ORDER } from "@/lib/app/setting/timecard"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"

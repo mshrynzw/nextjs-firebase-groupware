@@ -1,13 +1,16 @@
 "use server"
 
-import { createdInfo, editedInfo } from "@/lib/api/info"
+import { createdInfo, editedInfo } from "@/lib/app/info"
+import info from "@/types/info"
 
 export const createAction = async (formData : FormData, uid : string | undefined, type : string) => {
   const title = formData.get("title") as string
   const description = formData.get("description") as string
 
   try {
-    if (uid) await createdInfo(uid, title, type, description)
+    if (uid) {
+      return await createdInfo(uid, title, type, description)
+    }
   } catch (error) {
     console.error(error)
   }
@@ -18,7 +21,7 @@ export const editAction = async (formData : FormData, id : string) => {
   const description = formData.get("description") as string
 
   try {
-    await editedInfo(id, title, description)
+    return await editedInfo(id, title, description)
   } catch (error) {
     console.error(error)
   }

@@ -5,7 +5,7 @@ import Interaction from "@event-calendar/interaction"
 import { useQuery } from "@apollo/client"
 import "@event-calendar/core/index.css"
 import { getLocalTime } from "@/lib/datetime"
-import { GET_SCHEDULES } from "@/lib/api/schedule"
+import { GET_SCHEDULES } from "@/lib/app/schedule"
 import { AppContext } from "@/context/AppContext"
 
 

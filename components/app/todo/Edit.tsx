@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { editedTodo } from "@/lib/api/todo"
+import { editedTodo } from "@/lib/app/todo"
 import { formatDateTimeByStrapi, getLocalTime } from "@/lib/datetime"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"

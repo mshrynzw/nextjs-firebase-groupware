@@ -1,4 +1,4 @@
-import { deletedGroup } from "@/lib/api/setting/group"
+import { deletedGroup } from "@/lib/app/setting/group"
 import { getLocalTime } from "@/lib/datetime"
 import React, { useContext } from "react"
 import { AppContext } from "@/context/AppContext"

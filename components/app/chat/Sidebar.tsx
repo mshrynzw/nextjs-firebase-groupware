@@ -5,7 +5,7 @@ import { AppContext } from "@/context/AppContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faBars, faTimes, faUser, faUsers, faUsersRectangle } from "@fortawesome/free-solid-svg-icons"
 import { useQuery } from "@apollo/client"
-import { GET_GROUP_BY_USER } from "@/lib/api/setting/group"
+import { GET_GROUP_BY_USER } from "@/lib/app/setting/group"
 
 const Sidebar = () => {
   const appContext = useContext(AppContext)

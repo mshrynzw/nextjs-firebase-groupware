@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { createdGroup, GET_USERS } from "@/lib/api/setting/group"
+import { createdGroup, GET_USERS } from "@/lib/app/setting/group"
 import { User } from "@/types/user"
 import { useQuery } from "@apollo/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

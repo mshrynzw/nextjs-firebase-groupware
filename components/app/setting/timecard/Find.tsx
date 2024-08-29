@@ -6,7 +6,7 @@ import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { GET_SETTING_TIMECARDS } from "@/lib/api/setting/timecard"
+import { GET_SETTING_TIMECARDS } from "@/lib/app/setting/timecard"
 
 
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { editedTimecardSetting, GET_ORDER } from "@/lib/api/setting/timecard"
+import { editedTimecardSetting, GET_ORDER } from "@/lib/app/setting/timecard"
 import { getLocalTime } from "@/lib/datetime"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"

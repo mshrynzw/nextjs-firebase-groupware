@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useState, useEffect, ReactNode } from "react"
+import React, { createContext, useState, ReactNode } from "react"
 
 type AppContextType = {
   screen : string;
@@ -9,11 +9,11 @@ type AppContextType = {
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)
 
-export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [screen, setScreen]=useState<string>("find")
+export const AppProvider : React.FC<{ children : ReactNode }> = ({ children }) => {
+  const [screen, setScreen] = useState<string>("find")
 
-   return (
-    <AppContext.Provider value={{ screen, setScreen}}>
+  return (
+    <AppContext.Provider value={{ screen, setScreen }}>
       {children}
     </AppContext.Provider>
   )

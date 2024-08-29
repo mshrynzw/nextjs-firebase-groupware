@@ -1,4 +1,4 @@
-import { deletedTodo } from "@/lib/api/todo"
+import { deletedTodo } from "@/lib/app/todo"
 import { formatDateTimeByStrapi } from "@/lib/datetime"
 import React, { useContext } from "react"
 import LabelHeader from "@/components/label/LabelHeader"

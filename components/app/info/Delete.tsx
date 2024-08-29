@@ -1,6 +1,7 @@
+import { InfoContext } from "@/context/InfoContext"
 import React, { useContext, useEffect } from "react"
-import { deletedInfo } from "@/lib/api/info"
-import { formatDateTimeFromFirebase, getLocalTime } from "@/lib/datetime"
+import { deletedInfo } from "@/lib/app/info"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
 import TextUpdated from "@/components/text/TextUpdated"
@@ -13,6 +14,7 @@ import { db } from "@/lib/firebase"
 
 const Delete = ({ deleteInfo }) => {
   const { setScreen } = useContext(AppContext)
+  const { setInfos } = useContext(InfoContext)
 
   useEffect(() => {
     const fetchInfos = async () => {
@@ -25,10 +27,8 @@ const Delete = ({ deleteInfo }) => {
   const handleDelete = async () => {
     await deletedInfo(deleteInfo.id)
     setScreen("find")
-    window.location.reload()
+    setInfos((prevInfos) => prevInfos.filter(info => info.id !== deleteInfo.id))
   }
-
-  const updated = getLocalTime(deleteInfo.updatedAt)
 
   return (
     <ContainerCentered>
