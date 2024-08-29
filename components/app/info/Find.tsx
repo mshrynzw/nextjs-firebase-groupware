@@ -66,7 +66,7 @@ const Find = ({ setEditInfo, setDeleteInfo }) => {
             try {
               return (
                 <div key={info.id} className="w-full px-4 py-4 xl:w-6/12">
-                  <div className="relative mb-6 flex min-w-0 flex-col break-words rounded bg-white shadow-lg xl:mb-0">
+                  <div className="relative mb-6 flex min-w-0 flex-col break-words rounded bg-white opacity-95 shadow-lg xl:mb-0">
                     <div className="flex-auto p-4">
                       <div className="flex flex-wrap">
                         <div className="relative w-full max-w-full flex-1 flex-grow pr-4 space-y-2">

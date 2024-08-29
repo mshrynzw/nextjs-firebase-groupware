@@ -7,7 +7,7 @@ const LabelHeader = ({ screen }) => {
     <>
       {screen === "find" ? (
         <h1
-          className="w-full border-b-4 bg-transparent py-1 text-center font-bold uppercase shadow-xl outline-none ease-linear text-blueGray-800 border-blueGray-800 focus:outline-none"
+          className="w-full rounded border-b-4 bg-white py-1 text-center font-bold uppercase opacity-95 shadow-xl outline-none ease-linear text-blueGray-800 border-blueGray-800 focus:outline-none"
         >
           <FontAwesomeIcon icon={faHouse} className="mr-2 fas fa-tv"/>
           Find
