@@ -1,17 +1,14 @@
-import Loading from "@/app/loading"
-import React, { useContext, useEffect, useState } from "react"
+import { AppContext } from "@/context/AppContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { formatDateTimeFromFirebase } from "@/lib/datetime"
+import React, { useContext, useEffect, useState } from "react"
+import Loading from "@/app/loading"
 import LabelHeader from "@/components/label/LabelHeader"
-import { db } from "@/lib/firebase"
 import info from "@/types/info"
-import { collection, getDocs, doc, getDoc } from "firebase/firestore"
-import { AppContext } from "@/context/AppContext"
 
 const Find = ({ setEditInfo, setDeleteInfo }) => {
   const { setScreen } = useContext(AppContext)
-
   const [infos, setInfos] = useState<info[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -19,16 +16,9 @@ const Find = ({ setEditInfo, setDeleteInfo }) => {
   useEffect(() => {
     const fetchInfos = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "infos"))
-
-        const infosData = await Promise.all(querySnapshot.docs.map(async (d) => {
-          const infoData = { id : d.id, ...d.data() }
-          const userDoc = await getDoc(doc(db, "users", infoData.uid))
-          infoData.displayName = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
-          return infoData
-        }))
-
-        setInfos(infosData)
+        const response = await fetch("/api/getInfos", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const data = await response.json()
+        setInfos(data)
       } catch (error) {
         console.error(error.message)
         setError(error.message)
@@ -50,12 +40,8 @@ const Find = ({ setEditInfo, setDeleteInfo }) => {
     setScreen("delete")
   }
 
-  // TODO
   if (loading) return <Loading/>
-  if (error) {
-    console.error("Error: ", error)
-    return <p>Error: {error}</p>
-  }
+  if (error) return <p>Error: {error}</p>
 
   return (
     <div className="relative">
