@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { createTimecard } from "@/lib/app/timecard"
-import { TimecardSetting } from "@/types/timecardSetting"
+import { Timecard } from "@/types/setting/timecard"
 import { useQuery } from "@apollo/client"
 import { gql } from "apollo-boost"
 import { AppContext } from "@/context/AppContext"
@@ -35,7 +35,7 @@ const Create = ({ createDate }) => {
   const initEndWork = formattedDate + "T18:00:00"
 
   const [date, setDate] = useState<string>(formattedDate)
-  const [timecardSetting, setTimecardSetting] = useState<TimecardSetting | null>(null)
+  const [timecardSetting, setTimecardSetting] = useState<Timecard | null>(null)
   const [startWork, setStartWork] = useState<string>(initStartWork)
   const [startBreak, setStartBreak] = useState<string>(initStartBreak)
   const [endBreak, setEndBreak] = useState<string>(initEndBreak)

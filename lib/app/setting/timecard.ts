@@ -1,84 +1,25 @@
-import Cookies from "js-cookie"
-import { gql } from "apollo-boost"
+"use server"
 
-export const GET_SETTING_TIMECARDS = gql`
-    {
-        timecardSettings(sort: "order:asc"){
-            data{
-                id
-                attributes{
-                    title
-                    description
-                    order
-                    color
-                    updatedAt
-                }
-            }
-        }
-    }
-`
+import { addDoc, collection, deleteDoc, doc, Timestamp, updateDoc } from "@firebase/firestore"
+import { db } from "@/lib/firebase"
 
-export const GET_ORDER = gql`
-    {
-        timecardSettings(sort: "order:asc") {
-            data {
-                id
-                attributes {
-                    order
-                }
-            }
-        }
-    }
-`
-
-const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337"
-export const createTimecardSetting = async (title : string, description : string, order : number, color : string) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecard-settings`, {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : { title, description, order, color }
-      })
-    })
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+export const createdTimecard = async (title : string, description : string, order : number, color : string) => {
+  const createdAt = Timestamp.now().toDate().toISOString()
+  const updatedAt = Timestamp.now().toDate().toISOString()
+  const docRef = await addDoc(collection(db, "settingTimecards"), {
+    title, description, order, color, createdAt, updatedAt
+  })
+  return { id : docRef.id, title, description, order, color, createdAt, updatedAt }
 }
 
-export const editedTimecardSetting = async (id, title, description, order, color) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecard-settings/${id}`, {
-      method : "PUT",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : { title, description, order, color }
-      })
-    })
-  } catch (error) {
-    throw error
-  }
+export const editedTimecard = async (id, title, description, order, color) => {
+  console.log("title", title)
+  const updatedAt = Timestamp.now().toDate().toISOString()
+  const docRef = doc(db, "settingTimecards", id)
+  await updateDoc(docRef, { title, description, order, color, updatedAt })
+  return { id, title, description, order, color, updatedAt }
 }
 
 export const deletedTimecardSetting = async (id : number) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecard-settings/${id}`, {
-      method : "DELETE",
-      headers : {
-        Authorization : `Bearer ${token}`
-      }
-    })
-  } catch (error) {
-    throw error
-  }
+  await deleteDoc(doc(db, "settingTimecards", id))
 }

@@ -1,11 +1,11 @@
-import { InfoProvider } from "@/context/InfoContext"
 import { NextPage } from "next"
-import Index from "@/components/app/info/Index"
+import Index from "@/components/app/setting/timecard/Index"
 import { AppProvider } from "@/context/AppContext"
+import { TimecardProvider } from "@/context/setting/TimecardContext"
 
 export const generateMetadata = () => {
   return {
-    title : "Info",
+    title : "Setting Timecard",
     description : ""
   }
 }
@@ -14,9 +14,9 @@ const Page : NextPage = () => {
   return (
     <>
       <AppProvider>
-        <InfoProvider>
+        <TimecardProvider>
           <Index/>
-        </InfoProvider>
+        </TimecardProvider>
       </AppProvider>
     </>
   )

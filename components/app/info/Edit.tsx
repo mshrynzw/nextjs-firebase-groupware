@@ -1,10 +1,8 @@
-import { editAction } from "@/actions/infoAction"
-import { InfoContext } from "@/context/InfoContext"
 import React, { useContext, useEffect, useState } from "react"
+import { doc, getDoc } from "firebase/firestore"
 import { remark } from "remark"
 import html from "remark-html"
-import { editedInfo } from "@/lib/app/info"
-import { formatDateTimeFromFirebase } from "@/lib/datetime"
+import { editAction } from "@/actions/infoAction"
 import TextPreview from "@/components/text/TextPreview"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -15,10 +13,11 @@ import ContainerCentered from "@/components/container/ContainerCentered"
 import InputDescription from "@/components/input/InputDescription"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import { AppContext } from "@/context/AppContext"
-import { doc, getDoc } from "firebase/firestore"
+import { InfoContext } from "@/context/InfoContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import { db } from "@/lib/firebase"
 
-const Edit = ({ editInfo, handlePreview, isPreview, type }) => {
+const Edit : React.FC = ({ editInfo, handlePreview, isPreview, type }) => {
   const { setScreen } = useContext(AppContext)
   const { setInfos } = useContext(InfoContext)
 

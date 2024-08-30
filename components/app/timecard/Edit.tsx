@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { TimecardSetting } from "@/types/timecardSetting"
+import { Timecard } from "@/types/setting/timecard"
 import { gql } from "apollo-boost"
 import { useQuery } from "@apollo/client"
 import { editedTimecard } from "@/lib/app/timecard"
@@ -23,7 +23,7 @@ const query = gql`
 
 const Edit = ({ editTimecard, setScreen, refetch }) => {
   const [date, setDate] = useState<string>(editTimecard.attributes.date)
-  const [timecardSetting, setTimecardSetting] = useState<TimecardSetting>(editTimecard.attributes.type.data)
+  const [timecardSetting, setTimecardSetting] = useState<Timecard>(editTimecard.attributes.type.data)
   const [startWork, setStartWork] = useState<string>(formatDateTimeMinute(editTimecard.attributes.startWork))
   const [startBreak, setStartBreak] = useState<string>(formatDateTimeMinute(editTimecard.attributes.startBreak))
   const [endBreak, setEndBreak] = useState<string>(formatDateTimeMinute(editTimecard.attributes.endBreak))

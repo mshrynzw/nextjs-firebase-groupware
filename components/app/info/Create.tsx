@@ -1,9 +1,10 @@
-import { createAction } from "@/actions/infoAction"
-import { InfoContext } from "@/context/InfoContext"
 import React, { useContext, useState } from "react"
 import { remark } from "remark"
 import html from "remark-html"
+import Cookies from "js-cookie"
+import { createAction } from "@/actions/infoAction"
 import { AppContext } from "@/context/AppContext"
+import { InfoContext } from "@/context/InfoContext"
 import TextPreview from "@/components/text/TextPreview"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -12,9 +13,8 @@ import InputDescription from "@/components/input/InputDescription"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import Form from "@/components/form/Form"
-import Cookies from "js-cookie"
 
-const Create = ({ handlePreview, isPreview, type }) => {
+const Create : React.FC = ({ handlePreview, isPreview, type }) => {
   const { setScreen } = useContext(AppContext)
   const { setInfos } = useContext(InfoContext)
 

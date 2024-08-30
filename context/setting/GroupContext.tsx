@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useState, ReactNode } from "react"
-import group from "@/types/group"
+import group from "@/types/setting/group"
 
 type GroupContextType = {
   groups : group[];

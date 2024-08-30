@@ -1,13 +1,13 @@
+import React, { useContext, useEffect, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { AppContext } from "@/context/AppContext"
 import { InfoContext } from "@/context/InfoContext"
-import { formatDateTimeFromFirebase } from "@/lib/datetime"
-import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useContext, useEffect, useState } from "react"
 import Loading from "@/app/loading"
 import LabelHeader from "@/components/label/LabelHeader"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 
-const Find = ({ setEditInfo, setDeleteInfo }) => {
+const Find : React.FC = ({ setEditInfo, setDeleteInfo }) => {
   const { setScreen } = useContext(AppContext)
   const { infos, setInfos } = useContext(InfoContext)
 

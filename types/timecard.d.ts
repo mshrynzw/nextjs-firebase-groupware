@@ -1,10 +1,10 @@
 import { User } from "@/types/user"
-import { TimecardSetting } from "@/types/timecardSetting"
+import { Timecard } from "@/types/setting/timecard"
 
 export interface Timecard {
   id : number;
   date : string;
-  type : TimecardSetting;
+  type : Timecard;
   startWork : string;
   startBreak : string;
   endBreak : string;

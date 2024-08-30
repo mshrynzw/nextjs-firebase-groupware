@@ -17,7 +17,7 @@ const Find = ({ setEditGroup, setDeleteGroup }) => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await fetch("/api/getGroups", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const response = await fetch("/api/setting/getGroups", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
         const data = await response.json()
         setGroups(data)
       } catch (error) {

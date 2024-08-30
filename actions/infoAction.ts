@@ -1,7 +1,6 @@
 "use server"
 
 import { createdInfo, editedInfo } from "@/lib/app/info"
-import info from "@/types/info"
 
 export const createAction = async (formData : FormData, uid : string | undefined, type : string) => {
   const title = formData.get("title") as string

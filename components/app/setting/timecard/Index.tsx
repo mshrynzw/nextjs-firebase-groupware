@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import { usePathname } from "next/navigation"
 import dynamic from "next/dynamic"
 import { AppContext } from "@/context/AppContext"
@@ -17,22 +17,8 @@ const Index : React.FC = () => {
   const pathName = usePathname()
   const { screen } = useContext(AppContext)
 
-  const [editInfo, setEditInfo] = useState(null)
-  const [deleteInfo, setDeleteInfo] = useState(null)
-  const [type, setType] = useState("plain")
-  const [isPreview, setIsPreview] = useState(false)
-
-  useEffect(() => {
-    if (editInfo) setType(editInfo.type)
-  }, [editInfo])
-
-  const handleType = (str : string) => {
-    setType(str)
-  }
-
-  const handlePreview = () => {
-    setIsPreview(!isPreview)
-  }
+  const [editTimecardSetting, setEditTimecardSetting] = useState(null)
+  const [deleteTimecardSetting, setDeleteTimecardSetting] = useState(null)
 
   return (
     <AnimatePresence mode="wait">
@@ -43,19 +29,19 @@ const Index : React.FC = () => {
         exit={{ opacity : 0 }}
         transition={{ duration : 0.5 }}
       >
-        <DynamicFind setEditInfo={setEditInfo} setDeleteInfo={setDeleteInfo}/>
+        <DynamicFind setEditTimecardSetting={setEditTimecardSetting} setDeleteTimecardSetting={setDeleteTimecardSetting}/>
         {screen !== "find" && (
           <DynamicContainer>
-            {screen === "edit" && editInfo !== null ? (
-              <DynamicEdit editInfo={editInfo} handlePreview={handlePreview} isPreview={isPreview} type={type}/>
-            ) : screen === "delete" && deleteInfo !== null ? (
-              <DynamicDelete deleteInfo={deleteInfo}/>
+            {screen === "edit" && editTimecardSetting !== null ? (
+              <DynamicEdit editTimecardSetting={editTimecardSetting}/>
+            ) : screen === "delete" && deleteTimecardSetting !== null ? (
+              <DynamicDelete deleteTimecardSetting={deleteTimecardSetting}/>
             ) : screen === "create" ? (
-              <DynamicCreate type={type} isPreview={isPreview} handlePreview={handlePreview}/>
+              <DynamicCreate/>
             ) : null}
           </DynamicContainer>
         )}
-        <DynamicButtonMenu handlePreview={handlePreview} handleType={handleType} isPreview={isPreview} type={type}/>
+        <DynamicButtonMenu/>
       </motion.div>
     </AnimatePresence>
   )

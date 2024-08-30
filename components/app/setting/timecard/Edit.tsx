@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react"
-import { editedTimecardSetting, GET_ORDER } from "@/lib/app/setting/timecard"
-import { getLocalTime } from "@/lib/datetime"
-import { AppContext } from "@/context/AppContext"
+import React, { useContext, useEffect, useState } from "react"
+import { editAction } from "@/actions/setting/timecardAction"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"
 import Label from "@/components/label/Label"
@@ -11,42 +9,59 @@ import InputNumber from "@/components/input/InputNumber"
 import InputColor from "@/components/input/InputColor"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import ContainerCentered from "@/components/container/ContainerCentered"
-import { useQuery } from "@apollo/client"
 import TextUpdated from "@/components/text/TextUpdated"
+import { AppContext } from "@/context/AppContext"
+import { TimecardContext } from "@/context/setting/TimecardContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 
-const Edit = ({ editTimecardSetting, refetch }) => {
+const Edit : React.FC = ({ editTimecardSetting }) => {
   const { setScreen } = useContext(AppContext)
+  const { setTimecards } = useContext(TimecardContext)
 
-  const { loading, error, data } = useQuery(GET_ORDER)
+  // TODO
+  // const [title, setTitle] = useState<string>(editTimecardSetting.title)
+  const [description, setDescription] = useState<string>(editTimecardSetting.description)
+  const [order, setOrder] = useState<number>(Number(editTimecardSetting.order))
+  const [color, setColor] = useState<string>(editTimecardSetting.color)
 
-  const [title, setTitle] = useState<string>(editTimecardSetting.attributes.title)
-  const [description, setDescription] = useState<string>(editTimecardSetting.attributes.description)
-  const [order, setOrder] = useState<number>(Number(editTimecardSetting.attributes.order))
-  const [color, setColor] = useState<string>(editTimecardSetting.attributes.color)
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title")
+    formData.append("description", description)
+    formData.append("order", order)
+    formData.append("color", color)
 
-  const handleEdit = async () => {
-    await editedTimecardSetting(editTimecardSetting.id, title, description, order, color)
-    refetch()
-    setScreen("find")
+    try {
+      const updateTimecard = await editAction(formData, editTimecardSetting.id)
+      setScreen("find")
+      setTimecards((prevTimecards) =>
+        prevTimecards.map(timecard =>
+          timecard.id === updateTimecard.id
+            ? { ...timecard, ...updateTimecard, createdAt : timecard.createdAt }
+            : timecard
+        )
+      )
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  const updated = getLocalTime(editTimecardSetting.attributes.updatedAt)
-
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
-  }
-  let max = 1
-  const min = 0
-  if (data) {
-    max += Math.max(...data.timecardSettings.data.map(setting => setting.attributes.order))
-  }
+  // TODO
+  // if (loading) return <p>Loading...</p>
+  // if (error) {
+  //   console.error("Error fetching messages:", error)
+  //   return <p>Error: {error.message}</p>
+  // }
+  // let max = 1
+  // const min = 0
+  // if (data) {
+  //   max += Math.max(...data.timecardSettings.data.map(setting => setting.attributes.order))
+  // }
 
   return (
     <ContainerCentered>
       <LabelHeader screen="edit"/>
-      <Form onSubmit={handleEdit}>
+      <Form action={formAction}>
         <Label name="title"/>
         <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
         <Label name="description"/>
@@ -54,7 +69,7 @@ const Edit = ({ editTimecardSetting, refetch }) => {
         <div className="mb-8 flex space-x-4">
           <div className="basis-1/2">
             <Label name="order"/>
-            <InputNumber value={Number(order)} max={max} min={min} onChange={(e) => setOrder(Number(e.target.value))}/>
+            <InputNumber value={Number(order)} onChange={(e) => setOrder(Number(e.target.value))}/>
           </div>
           <div className="basis-1/2">
             <Label name="color"/>
@@ -62,7 +77,7 @@ const Edit = ({ editTimecardSetting, refetch }) => {
           </div>
         </div>
         <Label name="updated"/>
-        <TextUpdated updated={updated}/>
+        <TextUpdated updated={formatDateTimeFromFirebase(editTimecardSetting.updatedAt)}/>
         <ButtonSubmit/>
       </Form>
     </ContainerCentered>
