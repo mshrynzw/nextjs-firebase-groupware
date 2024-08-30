@@ -21,10 +21,12 @@ export async function GET() {
     })
   } catch (error) {
     console.error(error)
-    return new Response(JSON.stringify({ error : error.message }), {
-      status : 500,
-      headers : {
-        "Content-Type" : "application/json"
+    // errorがError型であることを確認
+    const errorMessage = (error as Error).message || "An unknown error occurred";
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json"
       }
     })
   }
