@@ -6,8 +6,8 @@ export async function GET() {
     const querySnapshot = await getDocs(collection(db, "infos"))
     const infosData = await Promise.all(
       querySnapshot.docs.map(async (d) => {
-        const infoData = { id : d.id, ...d.data() }
-        const userDoc = await getDoc(doc(db, "users", String(infoData.uid)))
+        const infoData = { id: d.id, ...d.data() } as { id: string; uid: string; [key: string]: any }
+        const userDoc = await getDoc(doc(db, "users", infoData.uid))
         infoData.displayName = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
         return infoData
       })
