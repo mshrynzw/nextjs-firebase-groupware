@@ -35,31 +35,29 @@ const Index : React.FC = () => {
   }
 
   return (
-    <>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={pathName}
-          initial={{ opacity : 0 }}
-          animate={{ opacity : 1 }}
-          exit={{ opacity : 0 }}
-          transition={{ duration : 0.5 }}
-        >
-          <DynamicFind setEditInfo={setEditInfo} setDeleteInfo={setDeleteInfo}/>
-          {screen !== "find" && (
-            <DynamicContainer>
-              {screen === "edit" && editInfo !== null ? (
-                <DynamicEdit editInfo={editInfo} handlePreview={handlePreview} isPreview={isPreview} type={type}/>
-              ) : screen === "delete" && deleteInfo !== null ? (
-                <DynamicDelete deleteInfo={deleteInfo}/>
-              ) : screen === "create" ? (
-                <DynamicCreate type={type} isPreview={isPreview} handlePreview={handlePreview}/>
-              ) : null}
-            </DynamicContainer>
-          )}
-          <DynamicButtonMenu handlePreview={handlePreview} handleType={handleType} isPreview={isPreview} type={type}/>
-        </motion.div>
-      </AnimatePresence>
-    </>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathName}
+        initial={{ opacity : 0 }}
+        animate={{ opacity : 1 }}
+        exit={{ opacity : 0 }}
+        transition={{ duration : 0.5 }}
+      >
+        <DynamicFind setEditInfo={setEditInfo} setDeleteInfo={setDeleteInfo}/>
+        {screen !== "find" && (
+          <DynamicContainer>
+            {screen === "edit" && editInfo !== null ? (
+              <DynamicEdit editInfo={editInfo} handlePreview={handlePreview} isPreview={isPreview} type={type}/>
+            ) : screen === "delete" && deleteInfo !== null ? (
+              <DynamicDelete deleteInfo={deleteInfo}/>
+            ) : screen === "create" ? (
+              <DynamicCreate type={type} isPreview={isPreview} handlePreview={handlePreview}/>
+            ) : null}
+          </DynamicContainer>
+        )}
+        <DynamicButtonMenu handlePreview={handlePreview} handleType={handleType} isPreview={isPreview} type={type}/>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

@@ -10,6 +10,7 @@ import LabelHeader from "@/components/label/LabelHeader"
 const Find = ({ setEditInfo, setDeleteInfo }) => {
   const { setScreen } = useContext(AppContext)
   const { infos, setInfos } = useContext(InfoContext)
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

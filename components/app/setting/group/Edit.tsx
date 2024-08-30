@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react"
-import { editedGroup, GET_USERS } from "@/lib/app/setting/group"
+import { editAction } from "@/actions/infoAction"
+import Loading from "@/app/loading"
+import { GroupContext } from "@/context/setting/GroupContext"
+import React, { useContext, useEffect, useState } from "react"
+import { getAllUsers } from "@/lib/app/setting/group"
 import { User } from "@/types/user"
-import { useQuery } from "@apollo/client"
-import { getLocalTime } from "@/lib/datetime"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSnowflake } from "@fortawesome/free-solid-svg-icons"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -15,39 +15,66 @@ import ContainerCentered from "@/components/container/ContainerCentered"
 import Form from "@/components/form/Form"
 import TextUpdated from "@/components/text/TextUpdated"
 
-const Edit = ({ editGroup, refetch }) => {
+const Edit = ({ editGroup }) => {
   const { setScreen } = useContext(AppContext)
+  const { setGroups } = useContext(GroupContext)
 
-  const [title, setTitle] = useState<string>(editGroup.attributes.title)
-  const [users, setUsers] = useState<User[]>(editGroup.attributes.users.data)
+  const [title, setTitle] = useState<string>(editGroup.title)
+  const [users, setUsers] = useState<User[]>(editGroup.users)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const { loading, error, data } = useQuery(GET_USERS)
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersData = await getAllUsers()
+        setUsers(usersData)
+      } catch (err) {
+        setError("Failed to get users.")
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUsers()
+  }, [])
+
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title", title)
+    formData.append("users", users)
+
+    try {
+      const updateGroup = await editAction(formData, editGroup.id)
+      setScreen("find")
+      setGroups((prevGroups) =>
+        prevGroups.map(group =>
+          group.id === updateGroup.id
+            ? { ...group, ...updateGroup, createdAt : group.createdAt }
+            : group
+        )
+      )
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  const handleEdit = async () => {
-    await editedGroup(editGroup.id, title, users)
-    refetch()
-    setScreen("find")
-  }
-
-  const updated = getLocalTime(editGroup.attributes.updatedAt)
+  if (loading) return <Loading/>
+  if (error) return <p>{error}</p>
 
   return (
     <ContainerCentered>
       <LabelHeader screen="create"/>
-      <Form onSubmit={handleEdit}>
+      <Form action={formAction}>
         <Label name="title"/>
         <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
 
         <Label name="users"/>
-        <InputSelectUsers data={data} setUsers={setUsers}/>
+        <InputSelectUsers data={users} setUsers={setUsers}/>
 
         <Label name="updated"/>
-        <TextUpdated updated={updated}/>
+        <TextUpdated updated={formatDateTimeFromFirebase(editGroup.updatedAt)}/>
 
         <ButtonSubmit/>
       </Form>

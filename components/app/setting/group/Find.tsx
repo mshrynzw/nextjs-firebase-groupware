@@ -1,21 +1,35 @@
-import React, { useContext, useEffect } from "react"
-import { useQuery } from "@apollo/client"
-import { getLocalTime } from "@/lib/datetime"
+import Loading from "@/app/loading"
+import { GroupContext } from "@/context/setting/GroupContext"
+import React, { useContext, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { GET_GROUPS } from "@/lib/app/setting/group"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 
-const Find = ({ setEditGroup, setDeleteGroup, refetchFlag }) => {
+const Find = ({ setEditGroup, setDeleteGroup }) => {
   const {setScreen} =useContext(AppContext)
+  const { groups, setGroups } = useContext(GroupContext)
 
-  const { loading, error, data, refetch } = useQuery(GET_GROUPS)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    refetch()
-  }, [refetchFlag])
+    const fetchGroups = async () => {
+      try {
+        const response = await fetch("/api/getGroups", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const data = await response.json()
+        setGroups(data)
+      } catch (error) {
+        console.error(error.message)
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
 
+    fetchGroups()
+  }, [])
+  
   const handleEdit = (group) => {
     setEditGroup(group)
     setScreen("edit")
@@ -26,11 +40,8 @@ const Find = ({ setEditGroup, setDeleteGroup, refetchFlag }) => {
     setScreen("delete")
   }
 
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
-  }
+  if (loading) return <Loading/>
+  if (error) return <p>Error: {error}</p>
 
   return (
     <div className="relative">
@@ -38,9 +49,8 @@ const Find = ({ setEditGroup, setDeleteGroup, refetchFlag }) => {
         <LabelHeader screen="find"/>
 
         <div className="flex flex-wrap">
-          {data.groups.data.map((group) => {
+          {groups.map((group) => {
             try {
-              const updatedTime = getLocalTime(group.attributes.updatedAt)
               return (
                 <div
                   key={group.id}
@@ -51,19 +61,19 @@ const Find = ({ setEditGroup, setDeleteGroup, refetchFlag }) => {
                       <div className="flex flex-wrap">
                         <div className="relative w-full max-w-full flex-1 flex-grow pr-4 space-y-2">
                           <h3 className="text-xl font-semibold text-blueGray-700">
-                            {group.attributes.title}
+                            {group.title}
                           </h3>
                           <ul  className="whitespace-pre-wrap break-words text-xs font-bold text-blueGray-400">
-                            {group.attributes.users.data.map((user) => {
+                            {group.users.map((user) => {
                               return (
-                                <li key={user.id}>{user.attributes.username}</li>
+                                <li key={user.id}>{user.displayName}</li>
                               )
                             })}
                           </ul>
                           <div className="flex items-end justify-between">
                             <p className="text-sm text-blueGray-400">
                             <span className="whitespace-nowrap">
-                              {updatedTime}
+                              {group.updatedAt}
                             </span>
                             </p>
                             <div className="flex justify-end">

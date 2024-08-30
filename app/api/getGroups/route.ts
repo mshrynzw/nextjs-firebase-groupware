@@ -1,19 +1,16 @@
-import { collection, getDocs, doc, getDoc } from "firebase/firestore"
 import { db } from "@/lib/firebase"
+import { collection, getDocs } from "firebase/firestore"
 
 export async function GET() {
   try {
-    const querySnapshot = await getDocs(collection(db, "infos"))
-    const infosData = await Promise.all(
+    const querySnapshot = await getDocs(collection(db, "groups"))
+    const groupsData = await Promise.all(
       querySnapshot.docs.map(async (d) => {
-        const infoData = { id: d.id, ...d.data() } as { id: string; uid: string; [key: string]: any }
-        const userDoc = await getDoc(doc(db, "users", infoData.uid))
-        infoData.displayName = userDoc.exists() ? userDoc.data().displayName : "Unknown User"
-        return infoData
+        return { id : d.id, ...d.data() } as { id : string }
       })
     )
 
-    return new Response(JSON.stringify(infosData), {
+    return new Response(JSON.stringify(groupsData), {
       status : 200,
       headers : {
         "Content-Type" : "application/json"
