@@ -7,7 +7,10 @@ import { cookies, headers } from "next/headers"
 import Sidebar from "@/components/sidebar/Sidebar"
 
 export const metadata : Metadata = {
-  title : "GROUPWARE",
+  title : {
+    default : "Groupware",
+    template : "%s | Groupware"
+  },
   description : "Groupware"
 }
 
