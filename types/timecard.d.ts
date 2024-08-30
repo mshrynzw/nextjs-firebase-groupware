@@ -11,7 +11,5 @@ export interface Timecard {
   endWork : string;
   user : User;
   createdAt : string;
-  createdBy : User;
   updatedAt : string;
-  updatedBy : User;
 }

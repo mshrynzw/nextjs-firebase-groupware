@@ -5,6 +5,6 @@ export interface Info {
   title : string;
   description : string;
   uid : string;
-  createdAt : Timestamp;
-  updatedAt : Timestamp;
+  createdAt : string;
+  updatedAt : string;
 }

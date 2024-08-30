@@ -121,10 +121,18 @@ export const formatDateTimeMinute = (dtm : string) : string => {
   return new Date(dtm).toISOString().slice(0, 16)
 }
 
-export const formatDateTimeFromFirebase=(dt: Timestamp):string=>{
-  return new Date(dt.seconds * 1000).toLocaleString("ja-JP", {
-    timeZone : "Asia/Tokyo"
-  })
+export const formatDateTimeFromFirebase = (dt : string) : string => {
+  const date = new Date(dt)
+  const options : Intl.DateTimeFormatOptions = {
+    year : "numeric",
+    month : "2-digit",
+    day : "2-digit",
+    hour : "2-digit",
+    minute : "2-digit",
+    timeZone : "Asia/Tokyo",
+    hour12 : false
+  }
+  return date.toLocaleString("ja-JP", options)
 }
 
 export const getDayColor = (date : Date) => {

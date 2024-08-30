@@ -8,4 +8,6 @@ export interface Todo {
   priority : Number;
   check : boolean;
   due : string;
+  createdAt : string;
+  updatedAt : string;
 }

@@ -1,5 +1,6 @@
 import Loading from "@/app/loading"
 import { GroupContext } from "@/context/setting/GroupContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import React, { useContext, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
@@ -63,7 +64,7 @@ const Find = ({ setEditGroup, setDeleteGroup }) => {
                           <h3 className="text-xl font-semibold text-blueGray-700">
                             {group.title}
                           </h3>
-                          <ul  className="whitespace-pre-wrap break-words text-xs font-bold text-blueGray-400">
+                          <ul className="whitespace-pre-wrap break-words text-xs font-bold text-blueGray-400">
                             {group.users.map((user) => {
                               return (
                                 <li key={user.id}>{user.displayName}</li>
@@ -73,7 +74,7 @@ const Find = ({ setEditGroup, setDeleteGroup }) => {
                           <div className="flex items-end justify-between">
                             <p className="text-sm text-blueGray-400">
                             <span className="whitespace-nowrap">
-                              {group.updatedAt}
+                              {formatDateTimeFromFirebase(group.updatedAt)}
                             </span>
                             </p>
                             <div className="flex justify-end">

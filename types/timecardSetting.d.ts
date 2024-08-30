@@ -8,8 +8,6 @@ export interface TimecardSetting {
     order : number;
     color : string;
     createdAt : string;
-    createdBy : User;
     updatedAt : string;
-    updatedBy : User;
   }
 }
