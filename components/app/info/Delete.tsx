@@ -1,4 +1,4 @@
-import { InfoContext } from "@/context/InfoContext"
+import { InfoContext } from "@/context/app/InfoContext"
 import React, { useContext, useEffect } from "react"
 import { deletedInfo } from "@/lib/app/info"
 import { formatDateTimeFromFirebase } from "@/lib/datetime"

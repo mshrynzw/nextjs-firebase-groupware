@@ -1,4 +1,4 @@
-import { TimecardContext } from "@/context/setting/TimecardContext"
+import { TimecardContext } from "@/context/app/setting/TimecardContext"
 import { deletedTimecardSetting } from "@/lib/app/setting/timecard"
 import { formatDateTimeFromFirebase, getLocalTime } from "@/lib/datetime"
 import LabelHeader from "@/components/label/LabelHeader"

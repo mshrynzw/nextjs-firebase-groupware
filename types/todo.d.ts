@@ -1,11 +1,9 @@
-import { User } from "@/types/user"
-
 export interface Todo {
   id : number;
-  name : string;
+  title : string;
   description : string;
-  user : User;
-  priority : Number;
+  uid : string;
+  priority : number;
   check : boolean;
   due : string;
   createdAt : string;

@@ -53,7 +53,7 @@ export const getOneHourAgo = () => {
   return `${year}-${month}-${date}T${hours}:00`
 }
 
-export const formatDateTimeByStrapi = (datetime : string) : string => {
+export const formatDateTime = (datetime : string) : string => {
   // 時間が24以上の場合、日付を1日進めて時間を調整する
   const [datePart, timePart] = datetime.split("T")
   let [hours, minutes] = timePart.split(":").map(Number)

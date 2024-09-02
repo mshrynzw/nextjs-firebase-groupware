@@ -1,7 +1,7 @@
 import { NextPage } from "next"
 import Index from "@/components/app/setting/timecard/Index"
 import { AppProvider } from "@/context/AppContext"
-import { TimecardProvider } from "@/context/setting/TimecardContext"
+import { TimecardProvider } from "@/context/app/setting/TimecardContext"
 
 export const generateMetadata = () => {
   return {

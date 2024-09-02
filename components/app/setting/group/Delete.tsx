@@ -1,5 +1,5 @@
-import { InfoContext } from "@/context/InfoContext"
-import { GroupContext } from "@/context/setting/GroupContext"
+import { InfoContext } from "@/context/app/InfoContext"
+import { GroupContext } from "@/context/app/setting/GroupContext"
 import { deletedGroup } from "@/lib/app/setting/group"
 import { formatDateTimeFromFirebase, getLocalTime } from "@/lib/datetime"
 import { db } from "@/lib/firebase"

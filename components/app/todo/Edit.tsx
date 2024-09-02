@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react"
-import { editedTodo } from "@/lib/app/todo"
-import { formatDateTimeByStrapi, getLocalTime } from "@/lib/datetime"
+import { editAction } from "@/actions/app/todoAction"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"
 import Label from "@/components/label/Label"
@@ -12,26 +11,46 @@ import InputCheck from "@/components/input/InputCheck"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import { AppContext } from "@/context/AppContext"
+import { TodoContext } from "@/context/app/TodoContext"
+import { formatDateTime } from "@/lib/datetime"
 
-const Edit = ({ editTodo, refetch }) => {
+const Edit = ({ editTodo }) => {
   const { setScreen } = useContext(AppContext)
+  const { setTodos } = useContext(TodoContext)
 
-  const [title, setTitle] = useState<string>(editTodo.attributes.title)
-  const [description, setDescription] = useState<string>(editTodo.attributes.description)
-  const [priority, setPriority] = useState<number>(editTodo.attributes.priority)
-  const [check, setCheck] = useState<boolean>(editTodo.attributes.check)
-  const [due, setDue] = useState<string>(formatDateTimeByStrapi(editTodo.attributes.due))
+  const [title, setTitle] = useState<string>(editTodo.title)
+  const [description, setDescription] = useState<string>(editTodo.description)
+  const [priority, setPriority] = useState<number>(editTodo.priority)
+  const [check, setCheck] = useState<boolean>(editTodo.check)
+  const [due, setDue] = useState<string>(formatDateTime(editTodo.due))
 
-  const handleEdit = async () => {
-    await editedTodo(editTodo.id, title, description, priority, check, due)
-    refetch()
-    setScreen("find")
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title", title)
+    formData.append("description", description)
+    formData.append("priority", priority)
+    formData.append("check", check)
+    formData.append("due", due)
+
+    try {
+      const updateTodo = await editAction(formData, editTodo.id)
+      setScreen("find")
+      setTodos((prevTodos) =>
+        prevTodos.map(todo =>
+          todo.id === updateTodo.id
+            ? { ...todo, ...updateTodo }
+            : todo
+        )
+      )
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <ContainerCentered>
       <LabelHeader screen="create"/>
-      <Form onSubmit={handleEdit}>
+      <Form action={formAction}>
         <Label name="title"/>
         <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
         <Label name="description"/>

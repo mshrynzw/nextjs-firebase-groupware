@@ -1,6 +1,6 @@
-import { editAction } from "@/actions/infoAction"
+import { editAction } from "@/actions/app/infoAction"
 import Loading from "@/app/loading"
-import { GroupContext } from "@/context/setting/GroupContext"
+import { GroupContext } from "@/context/app/setting/GroupContext"
 import React, { useContext, useEffect, useState } from "react"
 import { getAllUsers } from "@/lib/app/setting/group"
 import { User } from "@/types/user"
@@ -51,7 +51,7 @@ const Edit = ({ editGroup }) => {
       setGroups((prevGroups) =>
         prevGroups.map(group =>
           group.id === updateGroup.id
-            ? { ...group, ...updateGroup, createdAt : group.createdAt }
+            ? { ...group, ...updateGroup }
             : group
         )
       )

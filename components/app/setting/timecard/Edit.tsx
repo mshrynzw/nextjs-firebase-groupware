@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { editAction } from "@/actions/setting/timecardAction"
+import { editAction } from "@/actions/app/setting/timecardAction"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"
 import Label from "@/components/label/Label"
@@ -11,7 +11,7 @@ import ButtonSubmit from "@/components/button/ButtonSubmit"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import TextUpdated from "@/components/text/TextUpdated"
 import { AppContext } from "@/context/AppContext"
-import { TimecardContext } from "@/context/setting/TimecardContext"
+import { TimecardContext } from "@/context/app/setting/TimecardContext"
 import { formatDateTimeFromFirebase } from "@/lib/datetime"
 
 const Edit : React.FC = ({ editTimecardSetting }) => {
@@ -37,7 +37,7 @@ const Edit : React.FC = ({ editTimecardSetting }) => {
       setTimecards((prevTimecards) =>
         prevTimecards.map(timecard =>
           timecard.id === updateTimecard.id
-            ? { ...timecard, ...updateTimecard, createdAt : timecard.createdAt }
+            ? { ...timecard, ...updateTimecard }
             : timecard
         )
       )

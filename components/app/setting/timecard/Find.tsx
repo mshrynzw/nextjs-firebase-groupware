@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { TimecardContext } from "@/context/setting/TimecardContext"
+import { TimecardContext } from "@/context/app/setting/TimecardContext"
 import { AppContext } from "@/context/AppContext"
 import Loading from "@/app/loading"
 import LabelHeader from "@/components/label/LabelHeader"

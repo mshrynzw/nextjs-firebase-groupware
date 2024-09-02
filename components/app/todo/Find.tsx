@@ -1,36 +1,48 @@
-import React, { useContext, useEffect } from "react"
-import { useQuery } from "@apollo/client"
+import Loading from "@/app/loading"
+import { TodoContext } from "@/context/app/TodoContext"
+import React, { useContext, useEffect, useState } from "react"
 import { formatTimeWithoutYear, getLocalTime } from "@/lib/datetime"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
-import { GET_TODOS } from "@/lib/app/todo"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 
-const Find = ({setEditTodo, setDeleteTodo, refetchFlag }) => {
-  const {setScreen} =useContext(AppContext)
+const Find : React.FC = ({ setEditTodo, setDeleteTodo }) => {
+  const { setScreen } = useContext(AppContext)
+  const { todos, setTodos } = useContext(TodoContext)
 
-  const { loading, error, data, refetch } = useQuery(GET_TODOS)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    refetch()
-  }, [refetchFlag])
+    const fetchInfos = async () => {
+      try {
+        const response = await fetch("/api/getTodos", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const data = await response.json()
+        setTodos(data)
+      } catch (error) {
+        console.error(error.message)
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  const handleEdit = (todo) => {
-    setEditTodo(todo)
+    fetchInfos()
+  }, [])
+
+  const handleEdit = (info) => {
+    setEditTodo(info)
     setScreen("edit")
   }
 
-  const handleDelete = (todo) => {
-    setDeleteTodo(todo)
+  const handleDelete = (info) => {
+    setDeleteTodo(info)
     setScreen("delete")
   }
 
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
-  }
+  if (loading) return <Loading/>
+  if (error) return <p>Error: {error}</p>
 
   return (
     <div className="relative">
@@ -38,9 +50,9 @@ const Find = ({setEditTodo, setDeleteTodo, refetchFlag }) => {
         <LabelHeader screen="find"/>
 
         <div className="flex flex-wrap">
-          {data.todos.data.map((todo) => {
+          {todos.map((todo) => {
             try {
-              const updatedTime = getLocalTime(todo.attributes.updatedAt)
+              const updatedTime = getLocalTime(todo.updatedAt)
 
               return (
                 <div key={todo.id} className="w-full px-4 py-4 md:w-6/12 lg:w-4/12 xl:w-3/12">
@@ -50,10 +62,10 @@ const Find = ({setEditTodo, setDeleteTodo, refetchFlag }) => {
                       <div className="flex flex-wrap">
                         <div className="relative w-full max-w-full flex-1 flex-grow pr-4">
                           <h3 className="text-xl font-semibold text-blueGray-700">
-                            {todo.attributes.title}
+                            {todo.title}
                           </h3>
                           <p className="mt-4 whitespace-pre-wrap break-words text-xs font-bold text-blueGray-400">
-                            {todo.attributes.description}
+                            {todo.description}
                           </p>
                         </div>
                       </div>
@@ -61,13 +73,13 @@ const Find = ({setEditTodo, setDeleteTodo, refetchFlag }) => {
                       <div className="flex flex-wrap">
                         <div className="relative mt-4 w-full max-w-full flex-1 flex-grow text-xs">
                           <div>
-                            Priority : <span className="font-bold">{String(todo.attributes.priority)}</span>
+                            Priority : <span className="font-bold">{String(todo.priority)}</span>
                           </div>
                           <div>
-                            Duo : <span className="font-bold">{formatTimeWithoutYear(new Date(todo.attributes.due).toLocaleString())}</span>
+                            Duo : <span className="font-bold">{formatTimeWithoutYear(new Date(todo.due).toLocaleString())}</span>
                           </div>
                           <div>
-                            Check : <span className="font-bold">{String(todo.attributes.check)}</span>
+                            Check : <span className="font-bold">{String(todo.check)}</span>
                           </div>
                         </div>
                       </div>

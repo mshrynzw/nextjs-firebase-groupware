@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { createAction } from "@/actions/setting/timecardAction"
+import { createAction } from "@/actions/app/setting/timecardAction"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"
@@ -10,7 +10,7 @@ import InputDescription from "@/components/input/InputDescription"
 import InputNumber from "@/components/input/InputNumber"
 import InputColor from "@/components/input/InputColor"
 import { AppContext } from "@/context/AppContext"
-import { TimecardContext } from "@/context/setting/TimecardContext"
+import { TimecardContext } from "@/context/app/setting/TimecardContext"
 
 const Create : React.FC = ({ refetch }) => {
   const { setScreen } = useContext(AppContext)

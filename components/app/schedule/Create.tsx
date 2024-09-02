@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "@/context/AppContext"
-import { formatDateTimeByStrapi, getNow, getOneHourAgo } from "@/lib/datetime"
+import { formatDateTime, getNow, getOneHourAgo } from "@/lib/datetime"
 import { createdSchedule } from "@/lib/app/schedule"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
@@ -13,8 +13,8 @@ import Form from "@/components/form/Form"
 const Create = ({ createSchedule, refetch}) => {
   const { setScreen, user } = useContext(AppContext)
 
-  const [start, setStart] = useState<string>(formatDateTimeByStrapi(getNow()))
-  const [end, setEnd] = useState<string>(formatDateTimeByStrapi(getOneHourAgo()))
+  const [start, setStart] = useState<string>(formatDateTime(getNow()))
+  const [end, setEnd] = useState<string>(formatDateTime(getOneHourAgo()))
   const [title, setTitle] = useState("")
   const [textColor, setTextColor] = useState<string>("#FFFFFF")
   const [backgroundColor, setBackgroundColor] = useState<string>("#475569")
@@ -28,8 +28,8 @@ const Create = ({ createSchedule, refetch}) => {
       if (user) {
         await createdSchedule(user, new Date(start), new Date(end), title, textColor, backgroundColor)
       }
-      setStart(formatDateTimeByStrapi(getNow()))
-      setEnd(formatDateTimeByStrapi(getOneHourAgo()))
+      setStart(formatDateTime(getNow()))
+      setEnd(formatDateTime(getOneHourAgo()))
       setTitle("")
       setTextColor("#FFFFFF")
       setBackgroundColor("#475569")

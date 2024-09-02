@@ -1,9 +1,6 @@
 import React, { useContext, useState } from "react"
-import { AppContext } from "@/context/AppContext"
-import { createdTodo } from "@/lib/app/todo"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faPenToSquare, faSnowflake } from "@fortawesome/free-solid-svg-icons"
-import { getNow } from "@/lib/datetime"
+import Cookies from "js-cookie"
+import { createAction } from "@/actions/app/todoAction"
 import ContainerCentered from "@/components/container/ContainerCentered"
 import LabelHeader from "@/components/label/LabelHeader"
 import Form from "@/components/form/Form"
@@ -14,9 +11,15 @@ import InputNumber from "@/components/input/InputNumber"
 import InputDate from "@/components/input/InputDate"
 import InputCheck from "@/components/input/InputCheck"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
+import { TodoContext } from "@/context/app/TodoContext"
+import { AppContext } from "@/context/AppContext"
+import { getNow } from "@/lib/datetime"
 
-const Create = ({ refetch }) => {
+const Create : React.FC = () => {
   const { setScreen, user } = useContext(AppContext)
+  const { setTodos } = useContext(TodoContext)
+
+  const uid = Cookies.get("uid")
 
   const [title, setTitle] = useState<string>("")
   const [description, setDescription] = useState<string>("")
@@ -24,15 +27,17 @@ const Create = ({ refetch }) => {
   const [due, setDue] = useState<string>(getNow())
   const [check, setCheck] = useState<boolean>(false)
 
-  const handleCreat = async () => {
+  const formAction = async (e) => {
+    const formData = new FormData(e.currentTarget)
+    formData.append("title", title)
+    formData.append("description", description)
+    formData.append("priority", priority)
+    formData.append("due", due)
+    formData.append("check", check)
+
     try {
-      if (user) await createdTodo(user, title, description, priority, check, due)
-      setTitle("")
-      setDescription("")
-      setPriority(3)
-      setCheck(false)
-      setDue("")
-      refetch()
+      const newTodo = await createAction(formData, uid)
+      setTodos((prevTodos) => [...prevTodos, newTodo])
       setScreen("find")
     } catch (error) {
       console.error(error)
@@ -42,7 +47,7 @@ const Create = ({ refetch }) => {
   return (
     <ContainerCentered>
       <LabelHeader screen="create"/>
-      <Form onSubmit={handleCreat}>
+      <Form action={formAction}>
         <Label name="title"/>
         <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
         <Label name="description"/>

@@ -1,6 +1,6 @@
-import { createAction } from "@/actions/setting/groupAction"
+import { createAction } from "@/actions/app/setting/groupAction"
 import Loading from "@/app/loading"
-import { GroupContext } from "@/context/setting/GroupContext"
+import { GroupContext } from "@/context/app/setting/GroupContext"
 import React, { useContext, useEffect, useState } from "react"
 import { getAllUsers } from "@/lib/app/setting/group"
 import { User } from "@/types/user"
