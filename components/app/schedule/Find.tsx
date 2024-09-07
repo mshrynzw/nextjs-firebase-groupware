@@ -1,34 +1,47 @@
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import Calendar from "@event-calendar/core"
 import TimeGrid from "@event-calendar/time-grid"
 import Interaction from "@event-calendar/interaction"
-import { useQuery } from "@apollo/client"
 import "@event-calendar/core/index.css"
-import { getLocalTime } from "@/lib/datetime"
-import { GET_SCHEDULES } from "@/lib/app/schedule"
+import Loading from "@/app/loading"
 import { AppContext } from "@/context/AppContext"
+import { ScheduleContext } from "@/context/app/ScheduleContext"
+import { getLocalTime } from "@/lib/datetime"
 
+const Find : React.FC = ({ setCreateSchedule, setEditSchedule, setDeleteSchedule }) => {
+  const { setScreen } = useContext(AppContext)
+  const { schedules, setSchedules } = useContext(ScheduleContext)
 
-const Find = ({ setCreateSchedule, setEditSchedule, setDeleteSchedule, refetchFlag }) => {
-  const {setScreen} =useContext(AppContext)
-
-  useEffect(() => {
-    refetch()
-  }, [refetchFlag])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const calendarRef = useRef(null)
-  const { loading, error, data, refetch } = useQuery(GET_SCHEDULES)
 
   useEffect(() => {
-    if (loading || error || !data) return
+    const fetchSchedules = async () => {
+      try {
+        const response = await fetch("/api/getSchedules", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const data = await response.json()
+        setSchedules(data)
+      } catch (error) {
+        console.error(error.message)
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    const events = data.schedules.data.map((item) => ({
+    fetchSchedules()
+  }, [])
+
+  useEffect(() => {
+    const events = schedules.map((item) => ({
       id : item.id,
-      start : getLocalTime(item.attributes.start),
-      end : getLocalTime(item.attributes.end),
-      title : item.attributes.title,
-      textColor : item.attributes.textColor,
-      color : item.attributes.backgroundColor
+      start : getLocalTime(item.start),
+      end : getLocalTime(item.end),
+      title : item.title,
+      textColor : item.textColor,
+      color : item.backgroundColor
     }))
 
     if (calendarRef.current) {
@@ -60,13 +73,10 @@ const Find = ({ setCreateSchedule, setEditSchedule, setDeleteSchedule, refetchFl
         ec.destroy()
       }
     }
-  }, [loading, error, data])
+  }, [schedules])
 
-  if (loading) return <p>Loading...</p>
-  if (error) {
-    console.error("Error fetching messages:", error)
-    return <p>Error: {error.message}</p>
-  }
+  if (loading) return <Loading/>
+  if (error) return <p>Error: {error}</p>
 
   return (
     <div className="text-sm">

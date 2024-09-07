@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { AppContext } from "@/context/AppContext"
-import { formatDateTime, getNow, getOneHourAgo } from "@/lib/datetime"
-import { createdSchedule } from "@/lib/app/schedule"
+import Cookies from "js-cookie"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
 import InputDate from "@/components/input/InputDate"
@@ -9,9 +7,15 @@ import InputTitle from "@/components/input/InputTitle"
 import InputColor from "@/components/input/InputColor"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
 import Form from "@/components/form/Form"
+import { AppContext } from "@/context/AppContext"
+import { ScheduleContext } from "@/context/app/ScheduleContext"
+import { formatDateTime, getNow, getOneHourAgo } from "@/lib/datetime"
+import { createdSchedule } from "@/lib/app/schedule"
 
-const Create = ({ createSchedule, refetch}) => {
-  const { setScreen, user } = useContext(AppContext)
+const Create : React.FC = ({ createSchedule }) => {
+  const { setScreen } = useContext(AppContext)
+  const { setSchedules } = useContext(ScheduleContext)
+  const uid = Cookies.get("uid")
 
   const [start, setStart] = useState<string>(formatDateTime(getNow()))
   const [end, setEnd] = useState<string>(formatDateTime(getOneHourAgo()))
@@ -23,18 +27,13 @@ const Create = ({ createSchedule, refetch}) => {
     setStart(createSchedule?.startStr)
     setEnd(createSchedule?.endStr)
   }, [createSchedule])
-  const handleCreat = async () => {
+
+  const handleSubmit = async (e) => {
     try {
-      if (user) {
-        await createdSchedule(user, new Date(start), new Date(end), title, textColor, backgroundColor)
-      }
-      setStart(formatDateTime(getNow()))
-      setEnd(formatDateTime(getOneHourAgo()))
-      setTitle("")
-      setTextColor("#FFFFFF")
-      setBackgroundColor("#475569")
-      refetch()
+      e.preventDefault()
+      const newSchedule= await createdSchedule(uid, start, end, title, textColor, backgroundColor)
       setScreen("find")
+      setSchedules((prevSchedules) => [...prevSchedules, newSchedule])
     } catch (error) {
       console.error(error)
     }
@@ -43,7 +42,7 @@ const Create = ({ createSchedule, refetch}) => {
   return (
     <>
       <LabelHeader screen="create"/>
-      <Form onSubmit={handleCreat}>
+      <Form onSubmit={handleSubmit}>
         <Label name="start"/>
         <InputDate name="start" value={start} onChange={(e) => setStart(e.target.value)}/>
 

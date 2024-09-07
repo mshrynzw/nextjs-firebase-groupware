@@ -13,7 +13,7 @@ import ButtonSubmit from "@/components/button/ButtonSubmit"
 import InputTitle from "@/components/input/InputTitle"
 import InputSelectUsers from "@/components/input/InputSelectUsers"
 
-const Create = () => {
+const Create : React.FC = () => {
   const { setScreen } = useContext(AppContext)
   const { setGroups } = useContext(GroupContext)
 

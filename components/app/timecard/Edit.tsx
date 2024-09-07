@@ -70,11 +70,11 @@ const Edit : React.FC = ({ editTimecard }) => {
     }
   }, [timecardSetting])
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const updateTimecard = await editedTimecard(
       editTimecard.id, timecardSetting, startWork, startBreak, endBreak, endWork
     )
-    setScreen("find")
     setTimecards((prevTimecards) =>
       prevTimecards.map(timecard =>
         timecard.id === updateTimecard.id

@@ -7,7 +7,7 @@ import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 
-const Find = ({ setEditGroup, setDeleteGroup }) => {
+const Find: React.FC = ({ setEditGroup, setDeleteGroup }) => {
   const {setScreen} =useContext(AppContext)
   const { groups, setGroups } = useContext(GroupContext)
 

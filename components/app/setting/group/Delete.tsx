@@ -10,7 +10,7 @@ import ButtonSubmit from "@/components/button/ButtonSubmit"
 import TextUpdated from "@/components/text/TextUpdated"
 import Paragraph from "@/components/paragraph/Paragraph"
 
-const Delete = ({ deleteGroup }) => {
+const Delete : React.FC = ({ deleteGroup }) => {
   const { setScreen } = useContext(AppContext)
   const { setGroups } = useContext(GroupContext)
 

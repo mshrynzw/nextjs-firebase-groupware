@@ -68,8 +68,9 @@ const Create : React.FC = ({ createDate }) => {
     }
   }, [settingTimecard])
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     try {
+      e.preventDefault()
       const newTimecard = await createdTimecard(uid, date, settingTimecard, startWork, startBreak, endBreak, endWork)
       setScreen("find")
       setTimecards((prevTimecards) => [...prevTimecards, newTimecard])

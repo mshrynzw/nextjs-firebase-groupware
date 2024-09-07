@@ -15,7 +15,7 @@ import ContainerCentered from "@/components/container/ContainerCentered"
 import Form from "@/components/form/Form"
 import TextUpdated from "@/components/text/TextUpdated"
 
-const Edit = ({ editGroup }) => {
+const Edit  : React.FC= ({ editGroup }) => {
   const { setScreen } = useContext(AppContext)
   const { setGroups } = useContext(GroupContext)
 

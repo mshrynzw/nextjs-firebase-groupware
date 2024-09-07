@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { editedSchedule } from "@/lib/app/schedule"
-import { formatDateTimeByEventCalender } from "@/lib/datetime"
-import { AppContext } from "@/context/AppContext"
+import Cookies from "js-cookie"
 import LabelHeader from "@/components/label/LabelHeader"
 import Label from "@/components/label/Label"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
@@ -9,9 +7,15 @@ import Form from "@/components/form/Form"
 import InputDate from "@/components/input/InputDate"
 import InputTitle from "@/components/input/InputTitle"
 import InputColor from "@/components/input/InputColor"
+import { AppContext } from "@/context/AppContext"
+import { ScheduleContext } from "@/context/app/ScheduleContext"
+import { editedSchedule } from "@/lib/app/schedule"
+import { formatDateTimeByEventCalender } from "@/lib/datetime"
 
-const Edit = ({ editSchedule, refetch }) => {
+const Edit : React.FC = ({ editSchedule }) => {
   const { setScreen } = useContext(AppContext)
+  const { setSchedules } = useContext(ScheduleContext)
+  const uid = Cookies.get("uid")
 
   const [eventData, setEventData] = useState({
     start : "",
@@ -31,21 +35,28 @@ const Edit = ({ editSchedule, refetch }) => {
     })
   }, [editSchedule])
 
-  const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target
     setEventData(prev => ({ ...prev, [name] : value }))
   }
 
-  const handleEdit = async () => {
-    await editedSchedule(Number(editSchedule.event.id), new Date(eventData.start), new Date(eventData.end), eventData.title, eventData.textColor, eventData.backgroundColor)
-    refetch()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const updateSchedule = await editedSchedule(editSchedule.event.id, uid, eventData.start, eventData.end, eventData.title, eventData.textColor, eventData.backgroundColor)
+    setSchedules((prevSchedules) =>
+      prevSchedules.map(schedule =>
+        schedule.id === updateSchedule.id
+          ? { ...schedule, ...updateSchedule }
+          : schedule
+      )
+    )
     setScreen("find")
   }
 
   return (
     <div>
       <LabelHeader screen="edit"/>
-      <Form onSubmit={handleEdit}>
+      <Form onSubmit={handleSubmit}>
         <Label name="start"/>
         <InputDate name="start" value={eventData.start} onChange={handleChange}/>
 

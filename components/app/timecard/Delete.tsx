@@ -12,10 +12,11 @@ const Delete : React.FC = ({ deleteTimecard }) => {
   const { setScreen } = useContext(AppContext)
   const { setTimecards } = useContext(TimecardContext)
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault()
     await deletedTimecard(deleteTimecard.id)
-    setScreen("find")
     setTimecards((prevTimecards) => prevTimecards.filter(timecard => timecard.id !== deleteTimecard.id))
+    setScreen("find")
   }
 
   return (

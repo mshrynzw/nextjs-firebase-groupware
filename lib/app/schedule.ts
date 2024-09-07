@@ -1,72 +1,24 @@
-import Cookies from "js-cookie"
-import { gql } from "apollo-boost"
-import { User } from "@/types/user"
+import { db } from "@/lib/firebase"
+import { addDoc, collection, deleteDoc, doc, Timestamp, updateDoc } from "@firebase/firestore"
 
-export const GET_SCHEDULES = gql`
-    {
-        schedules{
-            data{
-                id
-                attributes{
-                    start
-                    end
-                    title
-                    textColor
-                    backgroundColor
-                }
-            }
-        }
-    }
-`
+export const createdSchedule = async (uid, start, end, title, textColor, backgroundColor) => {
+  const createdAt = Timestamp.now().toDate().toISOString()
+  const updatedAt = Timestamp.now().toDate().toISOString()
 
-const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337"
-
-export const createdSchedule = async (user : User, start : Date, end : Date, title : string, textColor : string, backgroundColor : string) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/schedules`, {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : { user, start, end, title, textColor, backgroundColor }
-      })
-    })
-  } catch (error) {
-    throw error
-  }
+  const docRef = await addDoc(collection(db, "schedules"), {
+    uid, start, end, title, textColor, backgroundColor, createdAt, updatedAt
+  })
+  return { id : docRef.id, uid, start, end, title, textColor, backgroundColor, createdAt, updatedAt }
 }
 
-export const editedSchedule = async (id : number, start : Date, end : Date, title : string, textColor : string, backgroundColor : string) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/schedules/${id}`, {
-      method : "PUT",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : { start, end, title, textColor, backgroundColor }
-      })
-    })
-  } catch (error) {
-    throw error
-  }
+export const editedSchedule = async (id, uid, start, end, title, textColor, backgroundColor) => {
+  const updatedAt = Timestamp.now().toDate().toISOString()
+
+  const docRef = doc(db, "schedules", id)
+  await updateDoc(docRef, { uid, start, end, title, textColor, backgroundColor, updatedAt })
+  return { id, uid, start, end, title, textColor, backgroundColor, updatedAt }
 }
 
-export const deletedSchedule = async (id : number) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/schedules/${id}`, {
-      method : "DELETE",
-      headers : {
-        Authorization : `Bearer ${token}`
-      }
-    })
-  } catch (error) {
-    throw error
-  }
+export const deletedSchedule = async (id) => {
+  await deleteDoc(doc(db, "schedules", id))
 }

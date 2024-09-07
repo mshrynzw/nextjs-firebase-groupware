@@ -1,4 +1,3 @@
-import { User } from "@/types/user"
 import { SettingTimecard } from "@/types/setting/timecard"
 
 export interface Timecard {

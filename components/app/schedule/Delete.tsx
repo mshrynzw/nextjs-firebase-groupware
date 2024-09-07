@@ -1,24 +1,27 @@
 import React, { useContext } from "react"
-import { deletedSchedule } from "@/lib/app/schedule"
-import { AppContext } from "@/context/AppContext"
-import LabelHeader from "@/components/label/LabelHeader"
 import ButtonSubmit from "@/components/button/ButtonSubmit"
+import LabelHeader from "@/components/label/LabelHeader"
+import { ScheduleContext } from "@/context/app/ScheduleContext"
+import { AppContext } from "@/context/AppContext"
+import { deletedSchedule } from "@/lib/app/schedule"
 
 
-const Delete = ({ deleteSchedule, refetch }) => {
+const Delete : React.FC = ({ deleteSchedule }) => {
   const { setScreen } = useContext(AppContext)
+  const { setSchedules } = useContext(ScheduleContext)
 
-  const handleDelete = async () => {
-    await deletedSchedule(Number(deleteSchedule.event.id))
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    await deletedSchedule(deleteSchedule.event.id)
+    setSchedules((prevSchedules) => prevSchedules.filter(schedule => schedule.id !== deleteSchedule.event.id))
     setScreen("find")
-    refetch()
   }
 
   return (
-    <div>
+    <>
       <LabelHeader screen="delete"/>
-      <ButtonSubmit onClick={handleDelete}/>
-    </div>
+      <ButtonSubmit onClick={handleSubmit}/>
+    </>
   )
 }
 
