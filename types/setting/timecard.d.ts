@@ -1,6 +1,6 @@
-export interface Timecard {
-  id : number;
-  name : string;
+export interface SettingTimecard {
+  id : string;
+  title : string;
   description : string;
   order : number;
   color : string;

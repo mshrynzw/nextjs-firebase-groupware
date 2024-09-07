@@ -135,6 +135,15 @@ export const formatDateTimeFromFirebase = (dt : string) : string => {
   return date.toLocaleString("ja-JP", options)
 }
 
+export const formatJstToUtc = (dt : string) : string => {
+  const date = new Date(dt)
+
+  const jstOffset = 9 * 60
+  const utcDate = new Date(date.getTime() - jstOffset * 60 * 1000)
+
+  return utcDate.toISOString()
+}
+
 export const getDayColor = (date : Date) => {
   const day = date.getDay()
   if (day === 0) return "text-red-500"

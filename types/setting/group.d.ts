@@ -1,6 +1,6 @@
 import { User } from "@/types/user"
 
-export interface Group {
+export interface SettingGroup {
   id : number;
   title : string;
   users : User[]

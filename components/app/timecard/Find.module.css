@@ -6,7 +6,7 @@
 .stickyHeader {
     position: sticky;
     top: 0;
-    z-index: 10;
+    /*z-index: 10;*/
     background-color: #475569; /* bg-blueGray-600 */
 }
 
@@ -17,7 +17,7 @@
 
 .stickyHeader th:first-child {
     left: 0;
-    z-index: 20;
+    /*z-index: 20;*/
 }
 
 /* Apply this class to the first cell of each row in the tbody */
@@ -25,7 +25,7 @@
     position: sticky;
     left: 0;
     background-color: inherit;
-    z-index: 5;
+    /*z-index: 5;*/
 }
 
 .tableRow {

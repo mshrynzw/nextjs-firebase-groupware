@@ -15,7 +15,7 @@ const Find : React.FC = ({ setEditTimecardSetting, setDeleteTimecardSetting }) =
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchTimes = async () => {
+    const fetchSettingTimecards = async () => {
       try {
         const response = await fetch("/api/setting/getTimecards", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
         const data = await response.json()
@@ -28,7 +28,7 @@ const Find : React.FC = ({ setEditTimecardSetting, setDeleteTimecardSetting }) =
       }
     }
 
-    fetchTimes()
+    fetchSettingTimecards()
   }, [])
 
   const handleEdit = (timecardSetting) => {

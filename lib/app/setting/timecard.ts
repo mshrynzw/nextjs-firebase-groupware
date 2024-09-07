@@ -13,7 +13,6 @@ export const createdTimecard = async (title : string, description : string, orde
 }
 
 export const editedTimecard = async (id, title, description, order, color) => {
-  console.log("title", title)
   const updatedAt = Timestamp.now().toDate().toISOString()
   const docRef = doc(db, "settingTimecards", id)
   await updateDoc(docRef, { title, description, order, color, updatedAt })

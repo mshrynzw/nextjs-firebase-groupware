@@ -1,107 +1,24 @@
-import Cookies from "js-cookie"
-import { gql } from "apollo-boost"
+import { db } from "@/lib/firebase"
+import { addDoc, collection, deleteDoc, doc, Timestamp, updateDoc } from "@firebase/firestore"
 
-export const GET_TIMECARDS = gql`
-    query GetTimecards($userId: ID!, $startDate: Date!, $endDate: Date!) {
-        timecards(
-            filters: {
-                user: { id: { eq: $userId } },
-                date: {
-                    gte: $startDate,
-                    lte: $endDate
-                }
-            },
-            sort: "date:asc",
-            pagination: { limit: 31 }
-        ) {
-            data {
-                id
-                attributes {
-                    date
-                    type {
-                        data {
-                            attributes {
-                                title
-                            }
-                        }
-                    }
-                    startWork
-                    startBreak
-                    endBreak
-                    endWork
-                }
-            }
-            meta {
-                pagination {
-                    total
-                }
-            }
-        }
-    }
-`
+export const createdTimecard = async (uid, date, settingTimecard, startWork, startBreak, endBreak, endWork) => {
+  const createdAt = Timestamp.now().toDate().toISOString()
+  const updatedAt = Timestamp.now().toDate().toISOString()
 
-const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337"
-
-export const createTimecard = async (user, date , type, startWork, startBreak, endBreak, endWork) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecards`, {
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : {
-          user,
-          date,
-          type,
-          startWork,
-          startBreak,
-          endBreak,
-          endWork
-        }
-      })
-    })
-  } catch (error) {
-    throw error
-  }
+  const docRef = await addDoc(collection(db, "timecards"), {
+    uid, date, settingTimecard, startWork, startBreak, endBreak, endWork, createdAt, updatedAt
+  })
+  return { id : docRef.id, uid, date, settingTimecard, startWork, startBreak, endBreak, endWork, createdAt, updatedAt }
 }
 
-export const editedTimecard = async (id, type, startWork, startBreak, endBreak, endWork) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecards/${id}`, {
-      method : "PUT",
-      headers : {
-        "Content-Type" : "application/json",
-        Authorization : `Bearer ${token}`
-      },
-      body : JSON.stringify({
-        data : {
-          type,
-          startWork,
-          startBreak,
-          endBreak,
-          endWork
-        }
-      })
-    })
-  } catch (error) {
-    throw error
-  }
+export const editedTimecard = async (id, settingTimecard, startWork, startBreak, endBreak, endWork) => {
+  const updatedAt = Timestamp.now().toDate().toISOString()
+
+  const docRef = doc(db, "timecards", id)
+  await updateDoc(docRef, { settingTimecard, startWork, startBreak, endBreak, endWork, updatedAt })
+  return { id, settingTimecard, startWork, startBreak, endBreak, endWork, updatedAt }
 }
 
-export const deletedTimecard = async (id : number) => {
-  const token = Cookies.get("token")
-  try {
-    await fetch(`${url}/api/timecards/${id}`, {
-      method : "DELETE",
-      headers : {
-        Authorization : `Bearer ${token}`
-      }
-    })
-  } catch (error) {
-    throw error
-  }
+export const deletedTimecard = async (id) => {
+  await deleteDoc(doc(db, "timecards", id))
 }

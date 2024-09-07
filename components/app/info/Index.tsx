@@ -14,7 +14,7 @@ const DynamicCreate = dynamic(() => import("./Create"))
 const DynamicButtonMenu = dynamic(() => import("@/components/button/ButtonMenu"))
 
 const Index : React.FC = () => {
-  const pathName = usePathname()
+  const pathname = usePathname()
   const { screen } = useContext(AppContext)
 
   const [editInfo, setEditInfo] = useState(null)
@@ -37,7 +37,7 @@ const Index : React.FC = () => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={pathName}
+        key={pathname}
         initial={{ opacity : 0 }}
         animate={{ opacity : 1 }}
         exit={{ opacity : 0 }}

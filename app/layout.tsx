@@ -23,7 +23,10 @@ const RootLayout = ({ children } : Readonly<{ children : React.ReactNode }>) => 
   }
 
   return (
-    <html lang="en">
+    <html lang="jp">
+    <head>
+      <link rel="icon" href="/favicon.ico" />
+    </head>
     <body>
     {token ? (
       <>

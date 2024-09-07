@@ -1,33 +1,43 @@
-import React, { useContext, useEffect } from "react"
+import Loading from "@/app/loading"
+import { TimecardContext } from "@/context/app/TimecardContext"
+import React, { useContext, useEffect, useState } from "react"
 import { AppContext } from "@/context/AppContext"
-import { useQuery } from "@apollo/client"
 import { formatMonthDateDay, formatTime, getDatesInCurrentMonth, getDayColor } from "@/lib/datetime"
 import styles from "./Find.module.css"
 import { faPenToSquare, faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { startOfMonth, endOfMonth, format } from 'date-fns';
-import { GET_TIMECARDS } from "@/lib/app/timecard"
 
-interface FindProps {
-  setScreen : (screen : string) => void;
-  setEditTimecard : (timecard : any) => void;
-  setDeleteTimecard : (timecard : any) => void;
-  refetchFlag : boolean;
-}
+const Find : React.FC = ({ setEditTimecard, setDeleteTimecard, setCreateDate}) => {
+  const { setScreen } = useContext(AppContext)
+  const { timecards, setTimecards } = useContext(TimecardContext)
 
-const Find : React.FC<FindProps> = ({ setScreen, setEditTimecard, setDeleteTimecard, setCreateDate, refetchFlag }) => {
-  const appContext = useContext(AppContext)
- 
-  const { user } = appContext
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // const { user } = appContext
   const startDate = format(startOfMonth(new Date()), 'yyyy-MM-dd');
   const endDate = format(endOfMonth(new Date()), 'yyyy-MM-dd');
-  const { loading, error, data, refetch } = useQuery(GET_TIMECARDS, {
-    variables : { userId : user?.id, startDate, endDate }
-  })
+  // const { loading, error, data, refetch } = useQuery(GET_TIMECARDS, {
+  //   variables : { userId : user?.id, startDate, endDate }
+  // })
 
   useEffect(() => {
-    refetch()
-  }, [refetchFlag])
+    const fetchInfos = async () => {
+      try {
+        const response = await fetch("/api/getTimecards", { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+        const data = await response.json()
+        setTimecards(data)
+      } catch (error) {
+        console.error(error.message)
+        setError(error.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchInfos()
+  }, [])
 
   const handleEdit = (timecard) => {
     setEditTimecard(timecard)
@@ -39,13 +49,13 @@ const Find : React.FC<FindProps> = ({ setScreen, setEditTimecard, setDeleteTimec
     setScreen("delete")
   }
 
-  const handleCreat = (date) => {
+  const handleCreate = (date) => {
     setCreateDate(date)
     setScreen("create")
   }
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
+  if (loading) return <Loading/>
+  if (error) return <p>Error: {error}</p>
 
   const dates : Date[] = getDatesInCurrentMonth()
 
@@ -67,8 +77,8 @@ const Find : React.FC<FindProps> = ({ setScreen, setEditTimecard, setDeleteTimec
           <tbody>
           {dates.map((date) => {
             const localDate = new Date(date).toLocaleDateString()
-            const matchingTimecards = data.timecards.data.filter((timecard) =>
-              new Date(timecard.attributes.date).toLocaleDateString() === localDate
+            const matchingTimecards = timecards.filter((timecard) =>
+              new Date(timecard.date).toLocaleDateString() === localDate
             )
 
             return matchingTimecards.length > 0 ? (
@@ -85,11 +95,11 @@ const Find : React.FC<FindProps> = ({ setScreen, setEditTimecard, setDeleteTimec
                       <FontAwesomeIcon icon={faTrash}/>
                     </button>
                   </td>
-                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.attributes.type.data?.attributes.title}</td>
-                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.attributes.startWork ? formatTime(timecard.attributes.startWork) : ""}</td>
-                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.attributes.startBreak ? formatTime(timecard.attributes.startBreak) : ""}</td>
-                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.attributes.endBreak ? formatTime(timecard.attributes.endBreak) : ""}</td>
-                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.attributes.endWork ? formatTime(timecard.attributes.endWork) : ""}</td>
+                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.settingTimecard.title}</td>
+                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.startWork ? formatTime(timecard.startWork) : ""}</td>
+                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.startBreak ? formatTime(timecard.startBreak) : ""}</td>
+                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.endBreak ? formatTime(timecard.endBreak) : ""}</td>
+                  <td className="whitespace-nowrap p-2 px-6 align-middle text-sm">{timecard.endWork ? formatTime(timecard.endWork) : ""}</td>
                 </tr>
               ))
             ) : (
@@ -98,7 +108,7 @@ const Find : React.FC<FindProps> = ({ setScreen, setEditTimecard, setDeleteTimec
                   {formatMonthDateDay(date)}
                 </th>
                 <td className="whitespace-nowrap p-2 px-6 text-center align-middle text-sm">
-                  <button onClick={() => handleCreat(localDate)}>
+                  <button onClick={() => handleCreate(localDate)}>
                     <FontAwesomeIcon icon={faPenToSquare}/>
                   </button>
                 </td>
