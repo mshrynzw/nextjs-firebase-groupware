@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ChatContext } from "@/context/app/ChatContext"
 import { createdChat } from "@/lib/app/chat"
 
-const Create : React.FC = ({ user, ws }) => {
+const Create : React.FC = () => {
   const uid = Cookies.get("uid")
   const { setChats } = useContext(ChatContext)
 
