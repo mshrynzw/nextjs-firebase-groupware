@@ -2,7 +2,7 @@
 
 import { createdTodo, editedTodo } from "@/lib/app/todo"
 
-export const createAction = async (formData: FormData) => {
+export const createAction = async (formData: FormData, uid) => {
   const title = formData.get("title") as string
   const description = formData.get("description") as string
   const priority = parseInt(formData.get("priority") as unknown as string, 10)
@@ -10,7 +10,7 @@ export const createAction = async (formData: FormData) => {
   const check = (formData.get("check") as unknown as string) === 'true'
 
   try {
-    return await createdTodo(title, description, priority, due, check)
+    return await createdTodo(uid, title, description, priority, due, check)
   } catch (error) {
     console.error(error)
   }
