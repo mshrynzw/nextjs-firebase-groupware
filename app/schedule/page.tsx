@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import React from "react"
-import Index from "@/components/app/schedule"
+import Index from "@/components/app/schedule/Index"
 import { AppProvider } from "@/context/AppContext"
 import { ScheduleProvider } from "@/context/app/ScheduleContext"
 
