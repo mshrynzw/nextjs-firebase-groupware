@@ -1,8 +1,7 @@
-export interface Info {
+export interface Chat {
   id : string;
-  title : string;
-  description : string;
   uid : string;
+  message : string;
   createdAt : string;
   updatedAt : string;
 }

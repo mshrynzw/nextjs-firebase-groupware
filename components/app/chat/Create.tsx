@@ -1,51 +1,33 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useContext, useState } from "react"
+import Cookies from "js-cookie"
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
-import React, { useState } from "react"
-import { v4 as uuidv4 } from "uuid"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { ChatContext } from "@/context/app/ChatContext"
 import { createdChat } from "@/lib/app/chat"
 
-const Create = ({user, ws}) => {
-  const [text, setText] = useState("")
-  const handleSend = async () => {
-    const response = await createdChat(user, text)
+const Create : React.FC = ({ user, ws }) => {
+  const uid = Cookies.get("uid")
+  const { setChats } = useContext(ChatContext)
 
-    if (response.ok) {
-      const responseData = await response.json()
-      const newMessageId = uuidv4()
+  const [message, setMessage] = useState("")
 
-      const chat = {
-        id : newMessageId,
-        attributes : {
-          text : responseData.text,
-          user : {
-            data : { id : user.id }
-          },
-          createdAt : new Date().toISOString()
-        }
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (message.trim() === "") return
 
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify(chat))
-        setText("")
-      }
-    } else {
-      console.error("Error:", response.statusText)
-    }
+    const newChat = await createdChat(uid, message)
+    setChats((prevChats) => [...prevChats, newChat])
+    setMessage("")
   }
 
   return (
     <div className="fixed right-0 bottom-0 left-0 m-0 w-full p-4 shadow-xl bg-blueGray-600 md:pl-72 xl:px-72">
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault()
-          await handleSend()
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="flex items-center space-x-4">
           <textarea
-            name="text" id="text" rows="3" required value={text}
+            name="text" id="text" rows="3" required value={message}
             className="flex-grow rounded border-0 bg-white px-2 py-2 text-sm shadow transition-all duration-150 ease-linear placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
           />
           <button
             type="submit"

@@ -1,9 +1,9 @@
-import Loading from "@/app/loading"
-import { GroupContext } from "@/context/app/setting/GroupContext"
-import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import React, { useContext, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsis, faTrash } from "@fortawesome/free-solid-svg-icons"
+import Loading from "@/app/loading"
+import { GroupContext } from "@/context/app/setting/GroupContext"
+import { formatDateTimeFromFirebase } from "@/lib/datetime"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
 
@@ -100,7 +100,7 @@ const Find: React.FC = ({ setEditGroup, setDeleteGroup }) => {
               )
             } catch (e) {
               console.error("Error processing message:", group, e)
-              return <p key={group.id}>Error displaying message</p>
+              return <p key={group.id}>{e.message}</p>
             }
           })}
         </div>

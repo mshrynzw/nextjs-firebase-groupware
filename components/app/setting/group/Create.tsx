@@ -1,8 +1,7 @@
-import { createAction } from "@/actions/app/setting/groupAction"
 import Loading from "@/app/loading"
 import { GroupContext } from "@/context/app/setting/GroupContext"
 import React, { useContext, useEffect, useState } from "react"
-import { getAllUsers } from "@/lib/app/setting/group"
+import { createdGroup, getAllUsers } from "@/lib/app/setting/group"
 import { User } from "@/types/user"
 import { AppContext } from "@/context/AppContext"
 import LabelHeader from "@/components/label/LabelHeader"
@@ -38,13 +37,14 @@ const Create : React.FC = () => {
     fetchUsers()
   }, [])
 
-  const formAction = async (e) => {
-    const formData = new FormData(e.currentTarget)
-    formData.append("title", title)
-    formData.append("users", users)
+  const handleSubmit = async (e) => {
+    // const formData = new FormData(e.currentTarget)
+    // formData.append("title", title)
+    // formData.append("users", users)
 
+    e.preventDefault()
     try {
-      const newGroup = await createAction(formData)
+      const newGroup = await createdGroup(title, users)
       setGroups((prevGroups) => [...prevGroups, newGroup])
       setScreen("find")
     } catch (error) {
@@ -58,7 +58,7 @@ const Create : React.FC = () => {
   return (
     <ContainerCentered>
       <LabelHeader screen="create"/>
-      <Form action={formAction}>
+      <Form onSubmit={handleSubmit}>
         <Label name="title"/>
         <InputTitle value={title} onChange={(e) => setTitle(e.target.value)}/>
 

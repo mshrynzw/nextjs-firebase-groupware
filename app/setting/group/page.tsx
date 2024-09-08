@@ -1,7 +1,7 @@
+import { NextPage } from "next"
 import Index from "@/components/app/setting/group/Index"
 import { AppProvider } from "@/context/AppContext"
 import { GroupProvider } from "@/context/app/setting/GroupContext"
-import { NextPage } from "next"
 
 
 export const generateMetadata = () => {

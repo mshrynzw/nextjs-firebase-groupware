@@ -99,7 +99,7 @@ const Find : React.FC = ({ setEditTimecardSetting, setDeleteTimecardSetting }) =
               )
             } catch (e) {
               console.error("Error processing message:", timecardSetting, e)
-              return <p key={timecardSetting.id}>Error displaying message</p>
+              return <p key={timecardSetting.id}>{e.message}</p>
             }
           })}
         </div>

@@ -111,7 +111,7 @@ const Find : React.FC = ({ setEditTodo, setDeleteTodo }) => {
               )
             } catch (e) {
               console.error("Error processing message:", todo, e)
-              return <p key={todo.id}>Error displaying message</p>
+              return <p key={todo.id}>{e.message}</p>
             }
           })}
         </div>

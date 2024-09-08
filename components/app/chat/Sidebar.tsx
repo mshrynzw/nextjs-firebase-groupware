@@ -1,26 +1,41 @@
-import React, { useContext, useState } from "react"
+import Loading from "@/app/loading"
+import Cookies from "js-cookie"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { AppContext } from "@/context/AppContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBars, faTimes, faUser, faUsers, faUsersRectangle } from "@fortawesome/free-solid-svg-icons"
-import { useQuery } from "@apollo/client"
-import { GET_GROUP_BY_USER } from "@/lib/app/setting/group"
+import { faTimes, faUser, faUsers, faUsersRectangle } from "@fortawesome/free-solid-svg-icons"
+import Group from "@/types/setting/group"
 
 const Sidebar = () => {
-  const appContext = useContext(AppContext)
-  const { user } = appContext
+  const uid = Cookies.get("uid")
 
   const [collapseShow, setCollapseShow] = useState("hidden")
+  // const [groups, setGroups] = useState<Group[]>([])
+  // const [loading, setLoading] = useState(true)
+  // const [error, setError] = useState<string | null>(null)
 
-  const router = useRouter()
+  // TODO
+  // useEffect(() => {
+  //   const fetchGroups = async () => {
+  //     try {
+  //       const response = await fetch(`/api/setting/getGroupsByUser?uid=${uid}`, { next : { revalidate : process.env.NEXT_PUBLIC_ISR_INTERBAL } })
+  //       const data = await response.json()
+  //       setGroups(data)
+  //       console.log("groups", groups)
+  //     } catch (error) {
+  //       console.error(error.message)
+  //       setError(error.message)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+  //
+  //   fetchGroups()
+  // }, [])
 
-  const { loading, error, data } = useQuery(GET_GROUP_BY_USER, {
-    variables : { userId : user?.id }
-  })
-
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error.message}</p>
+  // if (loading) return <Loading/>
+  // if (error) return <p>Error: {error}</p>
 
   return (
     <>
@@ -71,32 +86,23 @@ const Sidebar = () => {
                 Team
               </h6>
 
-              {data.groups.data.map((group) => {
-                return (
-                  <li className="items-center" key={group.id}>
-                    <Link
-                      href="/"
-                      className={
-                        "text-xs uppercase p-3 font-bold block text-blueGray-300" +
-                        (router.pathname.endsWith("/")
-                          ? " bg-blueGray-600 rounded-lg shadow-xl"
-                          : null)
-                      }
-                    >
-                      <FontAwesomeIcon
-                        icon={faUsers}
-                        className={
-                          "fas fa-tv mr-2 text-sm " +
-                          (router.pathname.endsWith("/")
-                            ? "opacity-75"
-                            : "text-blueGray-300")
-                        }
-                      />{" "}
-                      {group.attributes.title}
-                    </Link>
-                  </li>
-                )
-              })}
+              {/*ToDO*/}
+              {/*{groups.map((group) => {*/}
+              {/*  return (*/}
+              {/*    <li className="items-center" key={group.id}>*/}
+              {/*      <Link*/}
+              {/*        href="/"*/}
+              {/*        className="text-xs uppercase p-3 font-bold block text-blueGray-300 bg-blueGray-600 rounded-lg shadow-xl"*/}
+              {/*      >*/}
+              {/*        <FontAwesomeIcon*/}
+              {/*          icon={faUsers}*/}
+              {/*          className="fas fa-tv mr-2 text-sm opacity-75 text-blueGray-300"*/}
+              {/*        />{" "}*/}
+              {/*        {group.title}*/}
+              {/*      </Link>*/}
+              {/*    </li>*/}
+              {/*  )*/}
+              {/*})}*/}
 
               {/* Divider */}
               <hr className="my-4 xl:min-w-full"/>
@@ -108,21 +114,11 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link
                   href="/setting/group"
-                  className={
-                    "text-xs uppercase p-3 font-bold block " +
-                    (router.pathname.indexOf("/setting/group") !== -1
-                      ? "text-lightBlue-500 hover:text-lightBlue-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
-                  }
+                  className="text-xs uppercase p-3 font-bold block text-lightBlue-500 hover:text-lightBlue-600"
                 >
                   <FontAwesomeIcon
                     icon={faUser}
-                    className={
-                      "fas fa-tv mr-2 text-sm " +
-                      (router.pathname.indexOf("/setting/group") !== -1
-                        ? "opacity-75"
-                        : "text-blueGray-300")
-                    }
+                    className="fas fa-tv mr-2 text-sm opacity-75"
                   />{" "}
                   Andy Blueman
                 </Link>

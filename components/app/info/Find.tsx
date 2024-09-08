@@ -96,7 +96,7 @@ const Find : React.FC = ({ setEditInfo, setDeleteInfo }) => {
               )
             } catch (e) {
               console.error("Error processing message:", info, e)
-              return <p key={info.id}>Error displaying message</p>
+              return <p key={info.id}>{e.message}</p>
             }
           })}
         </div>
